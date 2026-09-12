@@ -1,0 +1,53 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+ARM64/
+artifacts/
+TestResults/
+
+# Visual Studio Installer Projects output
+Lumen.Setup/Debug/
+Lumen.Setup/Release/
+Lumen.Setup/Generated/
+*.msi
+*.cab
+
+# Publish output
+publish/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.cache
+*.userprefs
+
+# IDE/editor
+.vscode/
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# NuGet local artifacts
+*.nupkg
+*.snupkg
+packages/
+
+# Keep Lumen's permanent branding/runtime assets in source control.
+# In particular, do NOT ignore Assets/AutoSync/ggml-tiny.bin.

@@ -1,0 +1,331 @@
+<Page
+    x:Class="Lumen.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Page.Resources>
+        <Style x:Key="SettingsCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{ThemeResource LumenSurfaceBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource LumenBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="Padding" Value="22" />
+        </Style>
+        <Style x:Key="SettingsRowStyle" TargetType="Border">
+            <Setter Property="Background" Value="#07FFFFFF" />
+            <Setter Property="BorderBrush" Value="#14FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="11" />
+            <Setter Property="Padding" Value="14,12" />
+        </Style>
+        <Style x:Key="SettingsNavStyle" TargetType="Button" BasedOn="{StaticResource LumenNavigationButtonStyle}">
+            <Setter Property="MinHeight" Value="40" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,1" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Spacing="5" Margin="0,2,0,15">
+            <TextBlock Text="Settings" FontFamily="Segoe UI Variable Display"
+                       FontSize="32" FontWeight="SemiBold" Foreground="{ThemeResource LumenTextBrush}" />
+            <TextBlock Text="Playback, offline media, your Jellyfin connection and desktop behaviour — all in one place."
+                       Foreground="{ThemeResource LumenSecondaryTextBrush}" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
+                      HorizontalScrollMode="Enabled" Margin="0,0,0,14">
+            <StackPanel Orientation="Horizontal" Spacing="7">
+                <Button x:Name="NavGeneral" Tag="GeneralSection" Style="{StaticResource SettingsNavStyle}" Click="SettingsNav_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE713;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="{ThemeResource LumenAccentSoftBrush}"/><TextBlock Text="Server &amp; account"/></StackPanel>
+                </Button>
+                <Button x:Name="NavPlayback" Tag="PlaybackSection" Style="{StaticResource SettingsNavStyle}" Click="SettingsNav_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="{ThemeResource LumenAccentSoftBrush}"/><TextBlock Text="Playback"/></StackPanel>
+                </Button>
+                <Button x:Name="NavHome" Tag="HomeSection" Style="{StaticResource SettingsNavStyle}" Click="SettingsNav_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE80F;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="{ThemeResource LumenAccentSoftBrush}"/><TextBlock Text="Home"/></StackPanel>
+                </Button>
+                <Button x:Name="NavSubtitles" Tag="SubtitleSection" Style="{StaticResource SettingsNavStyle}" Click="SettingsNav_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE8C1;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="{ThemeResource LumenAccentSoftBrush}"/><TextBlock Text="Audio &amp; subtitles"/></StackPanel>
+                </Button>
+                <Button x:Name="NavMusic" Tag="MusicSection" Style="{StaticResource SettingsNavStyle}" Click="SettingsNav_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE8D6;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="{ThemeResource LumenAccentSoftBrush}"/><TextBlock Text="Music &amp; lyrics"/></StackPanel>
+                </Button>
+                <Button x:Name="NavDownloads" Tag="DownloadsSection" Style="{StaticResource SettingsNavStyle}" Click="SettingsNav_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE896;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="{ThemeResource LumenAccentSoftBrush}"/><TextBlock Text="Downloads"/></StackPanel>
+                </Button>
+                <Button x:Name="NavIntegrations" Tag="IntegrationsSection" Style="{StaticResource SettingsNavStyle}" Click="SettingsNav_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE774;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="{ThemeResource LumenAccentSoftBrush}"/><TextBlock Text="Desktop"/></StackPanel>
+                </Button>
+                <Button x:Name="NavAdvanced" Tag="AdvancedSection" Style="{StaticResource SettingsNavStyle}" Click="SettingsNav_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE946;" FontFamily="Segoe Fluent Icons" FontSize="14" Foreground="{ThemeResource LumenAccentSoftBrush}"/><TextBlock Text="Advanced"/></StackPanel>
+                </Button>
+            </StackPanel>
+        </ScrollViewer>
+
+        <ScrollViewer x:Name="SettingsScroller" Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="SettingsScrollContent" MaxWidth="1180" Spacing="18" Padding="0,4,10,64">
+
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource SettingsCardStyle}" Padding="16">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="SERVER" Foreground="{ThemeResource LumenMutedBrush}" FontSize="9" FontWeight="Bold" CharacterSpacing="90" />
+                            <TextBlock Text="{Binding ServerName}" Foreground="{ThemeResource LumenTextBrush}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding ConnectionStatus}" Foreground="{ThemeResource LumenAccentSoftBrush}" FontSize="11" />
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource SettingsCardStyle}" Padding="16">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="PROFILE" Foreground="{ThemeResource LumenMutedBrush}" FontSize="9" FontWeight="Bold" CharacterSpacing="90" />
+                            <TextBlock Text="{Binding UserName}" Foreground="{ThemeResource LumenTextBrush}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="Jellyfin account" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="11" />
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="2" Style="{StaticResource SettingsCardStyle}" Padding="16">
+                        <StackPanel Spacing="5">
+                            <TextBlock Text="OFFLINE" Foreground="{ThemeResource LumenMutedBrush}" FontSize="9" FontWeight="Bold" CharacterSpacing="90" />
+                            <TextBlock x:Name="OfflineDownloadCountText" Text="0 downloads" Foreground="{ThemeResource LumenTextBrush}" FontSize="16" FontWeight="SemiBold" />
+                            <TextBlock Text="Available on this PC" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="11" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <Border x:Name="GeneralSection" Style="{StaticResource SettingsCardStyle}">
+                    <StackPanel Spacing="14">
+                        <StackPanel Spacing="3">
+                            <TextBlock Text="Server &amp; account" Foreground="{ThemeResource LumenTextBrush}" FontSize="20" FontWeight="SemiBold" />
+                            <TextBlock Text="Connection, sign-in and account controls." Foreground="{ThemeResource LumenSecondaryTextBrush}" />
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="14">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="3">
+                                    <TextBlock Text="Jellyfin server" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding ServerUrl}" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding ConnectionStatus}" Foreground="{ThemeResource LumenAccentSoftBrush}" FontSize="11" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                    <Button Content="Info" Style="{StaticResource LumenSecondaryButtonStyle}" Click="ConnectionInfo_Click" />
+                                    <Button Content="Change server" Style="{StaticResource LumenSecondaryButtonStyle}" Click="ChangeServer_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="14">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="3">
+                                    <TextBlock Text="Signed in as" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding UserName}" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12" />
+                                </StackPanel>
+                                <Button Grid.Column="1" Content="Sign out" Style="{StaticResource LumenSecondaryButtonStyle}" Click="SignOut_Click" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="16">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="3">
+                                    <TextBlock Text="Automatic sign-in" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold" />
+                                    <TextBlock Text="Restore the protected Jellyfin session when Lumen starts." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding AutoLogin, Mode=TwoWay}" Toggled="AutoLogin_Toggled" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="16">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="3">
+                                    <TextBlock Text="Reconnect automatically" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold" />
+                                    <TextBlock Text="Retry the saved server in the background after a temporary outage." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding AutoReconnect, Mode=TwoWay}" Toggled="Setting_Toggled" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="PlaybackSection" Style="{StaticResource SettingsCardStyle}">
+                    <StackPanel Spacing="14">
+                        <StackPanel Spacing="3">
+                            <TextBlock Text="Playback" Foreground="{ThemeResource LumenTextBrush}" FontSize="20" FontWeight="SemiBold" />
+                            <TextBlock Text="Defaults used by Lumen's native video player." Foreground="{ThemeResource LumenSecondaryTextBrush}" />
+                        </StackPanel>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="3"><TextBlock Text="Prefer downloaded copy" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="When a movie or episode exists offline, play the local file instead of streaming it again." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12" TextWrapping="Wrap"/></StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding PreferDownloadedPlayback, Mode=TwoWay}" Toggled="Setting_Toggled" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="3"><TextBlock Text="Prefer Direct Play" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Avoid transcoding when the source is compatible with the native player." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding PreferDirectPlay, Mode=TwoWay}" Toggled="Setting_Toggled" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="3"><TextBlock Text="Hardware acceleration" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Use supported hardware decoding paths when available." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding HardwareAcceleration, Mode=TwoWay}" Toggled="Setting_Toggled" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="3"><TextBlock Text="Autoplay next episode" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Automatically continue a series after the Up Next countdown." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding AutoplayNextEpisode, Mode=TwoWay}" Toggled="Setting_Toggled" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="3"><TextBlock Text="Resume from last position" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Start partially watched titles from their saved Jellyfin position." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding ResumePlayback, Mode=TwoWay}" Toggled="Setting_Toggled" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <Border Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Auto-skip intro" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Skip detected intro segments." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><ToggleSwitch Grid.Column="1" IsOn="{Binding AutoSkipIntro, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                            <Border Grid.Column="1" Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Auto-skip credits" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Skip detected credits segments." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><ToggleSwitch Grid.Column="1" IsOn="{Binding AutoSkipCredits, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="HomeSection" Style="{StaticResource SettingsCardStyle}">
+                    <StackPanel Spacing="14">
+                        <StackPanel Spacing="3"><TextBlock Text="Home" Foreground="{ThemeResource LumenTextBrush}" FontSize="20" FontWeight="SemiBold"/><TextBlock Text="Choose the rows and behaviour of the Lumen Home screen." Foreground="{ThemeResource LumenSecondaryTextBrush}"/></StackPanel>
+                        <Grid ColumnSpacing="12" RowSpacing="12">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                            <Border Grid.Row="0" Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="Continue Watching" Foreground="{ThemeResource LumenTextBrush}" VerticalAlignment="Center"/><ToggleSwitch Grid.Column="1" IsOn="{Binding ShowContinueWatching, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="Up Next" Foreground="{ThemeResource LumenTextBrush}" VerticalAlignment="Center"/><ToggleSwitch Grid.Column="1" IsOn="{Binding ShowUpNext, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                            <Border Grid.Row="1" Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="Favourites" Foreground="{ThemeResource LumenTextBrush}" VerticalAlignment="Center"/><ToggleSwitch Grid.Column="1" IsOn="{Binding ShowFavorites, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                            <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="Recently Released" Foreground="{ThemeResource LumenTextBrush}" VerticalAlignment="Center"/><ToggleSwitch Grid.Column="1" IsOn="{Binding ShowRecentlyReleased, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                            <Border Grid.Row="2" Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="Recently Added" Foreground="{ThemeResource LumenTextBrush}" VerticalAlignment="Center"/><ToggleSwitch Grid.Column="1" IsOn="{Binding ShowRecentlyAdded, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                            <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="Muted hero trailers" Foreground="{ThemeResource LumenTextBrush}" VerticalAlignment="Center"/><ToggleSwitch Grid.Column="1" IsOn="{Binding HeroTrailersEnabled, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                        </Grid>
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="14"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Row priority" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Choose which group is surfaced first on Home." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><ComboBox Grid.Column="1" Width="245" SelectedIndex="{Binding HomeLayoutIndex, Mode=TwoWay}" SelectionChanged="Setting_Changed"><ComboBoxItem Content="Personalised first"/><ComboBoxItem Content="Favourites first"/><ComboBoxItem Content="New &amp; released first"/></ComboBox></Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="SubtitleSection" Style="{StaticResource SettingsCardStyle}">
+                    <StackPanel Spacing="14">
+                        <StackPanel Spacing="3"><TextBlock Text="Audio &amp; subtitles" Foreground="{ThemeResource LumenTextBrush}" FontSize="20" FontWeight="SemiBold"/><TextBlock Text="Subtitle defaults applied before playback starts." Foreground="{ThemeResource LumenSecondaryTextBrush}"/></StackPanel>
+                        <Border Style="{StaticResource SettingsRowStyle}"><Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Prefer subtitles" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Select a suitable subtitle track when one is available." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><ToggleSwitch Grid.Column="1" IsOn="{Binding PreferSubtitles, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                        <Border Style="{StaticResource SettingsRowStyle}"><Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Prefer forced subtitles" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Prioritise forced/signs-and-songs subtitle tracks when available." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><ToggleSwitch Grid.Column="1" IsOn="{Binding PreferForcedSubtitles, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <Border Style="{StaticResource SettingsRowStyle}"><StackPanel Spacing="7"><TextBlock Text="Subtitle size" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><ComboBox SelectedIndex="{Binding SubtitleSizeIndex, Mode=TwoWay}" SelectionChanged="Setting_Changed"><ComboBoxItem Content="Small"/><ComboBoxItem Content="Medium"/><ComboBoxItem Content="Large"/><ComboBoxItem Content="Extra large"/></ComboBox></StackPanel></Border>
+                            <Border Grid.Column="1" Style="{StaticResource SettingsRowStyle}"><StackPanel Spacing="7"><TextBlock Text="Subtitle background" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><ComboBox SelectedIndex="{Binding SubtitleBackgroundIndex, Mode=TwoWay}" SelectionChanged="Setting_Changed"><ComboBoxItem Content="Transparent"/><ComboBoxItem Content="Soft shadow"/><ComboBoxItem Content="Dark background"/></ComboBox></StackPanel></Border>
+                        </Grid>
+                        <Border Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Subtitle text shadow" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Add extra contrast around subtitle text." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><ToggleSwitch Grid.Column="1" IsOn="{Binding SubtitleShadow, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="MusicSection" Style="{StaticResource SettingsCardStyle}">
+                    <StackPanel Spacing="14">
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <StackPanel Spacing="3"><TextBlock Text="Music &amp; lyrics" Foreground="{ThemeResource LumenTextBrush}" FontSize="20" FontWeight="SemiBold"/><TextBlock Text="Music playback keeps its own persistent player while Lumen preserves your lyric timing adjustments." Foreground="{ThemeResource LumenSecondaryTextBrush}" TextWrapping="Wrap"/></StackPanel>
+                            <Button Grid.Column="1" Content="Open Music" Style="{StaticResource LumenSecondaryButtonStyle}" Click="OpenMusic_Click" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <StackPanel Spacing="4"><TextBlock Text="Lyrics AutoSync" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="AutoSync remains available from Now Playing and uses the existing local speech model. Manual offset/scale corrections are remembered per track." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12" TextWrapping="Wrap"/></StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="12"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Saved lyric timing adjustments" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Reset your per-track manual timing and scale corrections without changing downloaded lyrics." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12" TextWrapping="Wrap"/><TextBlock x:Name="MusicSyncStatus" Foreground="{ThemeResource LumenAccentSoftBrush}" FontSize="11"/></StackPanel><Button Grid.Column="1" Content="Reset adjustments" Style="{StaticResource LumenSecondaryButtonStyle}" Click="ResetLyricAdjustments_Click" VerticalAlignment="Center"/></Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="DownloadsSection" Style="{StaticResource SettingsCardStyle}">
+                    <StackPanel Spacing="14">
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <StackPanel Spacing="3"><TextBlock Text="Downloads &amp; offline" Foreground="{ThemeResource LumenTextBrush}" FontSize="20" FontWeight="SemiBold"/><TextBlock Text="Storage, quality and offline-start behaviour." Foreground="{ThemeResource LumenSecondaryTextBrush}"/></StackPanel>
+                            <Button Grid.Column="1" Content="Open Downloads" Style="{StaticResource LumenSecondaryButtonStyle}" Click="OpenDownloads_Click" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <StackPanel Spacing="9">
+                                <Grid ColumnSpacing="10"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Download folder" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock x:Name="DownloadFolderTextBox" TextTrimming="CharacterEllipsis" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/><TextBlock x:Name="DownloadStorageText" Foreground="{ThemeResource LumenMutedBrush}" FontSize="11"/></StackPanel><StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center"><Button Content="Change…" Style="{StaticResource LumenSecondaryButtonStyle}" Click="DownloadFolderBrowse_Click"/><Button Content="Reset" Style="{StaticResource LumenSecondaryButtonStyle}" Click="DownloadFolderReset_Click"/></StackPanel></Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <Border Style="{StaticResource SettingsRowStyle}"><StackPanel Spacing="7"><TextBlock Text="Default quality" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><ComboBox x:Name="DownloadQualityComboBox" SelectionChanged="DownloadQuality_SelectionChanged"><ComboBoxItem Content="Original" Tag="Original"/><ComboBoxItem Content="High • up to 1080p" Tag="High"/><ComboBoxItem Content="Medium • up to 720p" Tag="Medium"/><ComboBoxItem Content="Data saver • up to 480p" Tag="DataSaver"/></ComboBox></StackPanel></Border>
+                            <Border Grid.Column="1" Style="{StaticResource SettingsRowStyle}"><StackPanel Spacing="7"><TextBlock Text="Simultaneous downloads" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><ComboBox x:Name="DownloadConcurrencyComboBox" SelectionChanged="DownloadConcurrency_SelectionChanged"><ComboBoxItem Content="1 download" Tag="1"/><ComboBoxItem Content="2 downloads" Tag="2"/><ComboBoxItem Content="3 downloads" Tag="3"/><ComboBoxItem Content="4 downloads" Tag="4"/><ComboBoxItem Content="6 downloads" Tag="6"/><ComboBoxItem Content="8 downloads" Tag="8"/></ComboBox></StackPanel></Border>
+                        </Grid>
+
+                        <Border Style="{StaticResource SettingsRowStyle}"><Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Open offline when the server is unavailable" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="If valid downloads exist, Lumen can start directly in Downloads while it keeps trying to reconnect." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12" TextWrapping="Wrap"/></StackPanel><ToggleSwitch Grid.Column="1" IsOn="{Binding OfflineStartupEnabled, Mode=TwoWay}" Toggled="Setting_Toggled" VerticalAlignment="Center"/></Grid></Border>
+
+                        <TextBlock Text="Original keeps the server file untouched. Reduced qualities are saved as H.264/AAC MP4 and can require Jellyfin transcoding while the download runs." Foreground="{ThemeResource LumenMutedBrush}" FontSize="11" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="IntegrationsSection" Style="{StaticResource SettingsCardStyle}">
+                    <StackPanel Spacing="14">
+                        <StackPanel Spacing="3"><TextBlock Text="Desktop &amp; controls" Foreground="{ThemeResource LumenTextBrush}" FontSize="20" FontWeight="SemiBold"/><TextBlock Text="Windows behaviour, controller support and optional integrations." Foreground="{ThemeResource LumenSecondaryTextBrush}"/></StackPanel>
+                        <Border Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Gamepad controls" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="D-pad navigates, A selects and B goes back; player shortcuts remain available." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><ToggleSwitch Grid.Column="1" IsOn="{Binding GamepadEnabled, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                        <Border Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Discord Rich Presence" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Opt-in presence when a supported Discord native SDK is available." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><ToggleSwitch Grid.Column="1" IsOn="{Binding DiscordRichPresence, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                        <Border Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Close to system tray" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Keep Lumen running after closing the main window." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><ToggleSwitch Grid.Column="1" IsOn="{Binding MinimiseToTray, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border>
+                        <Grid ColumnSpacing="12"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><Border Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="Desktop notifications" Foreground="{ThemeResource LumenTextBrush}" VerticalAlignment="Center"/><ToggleSwitch Grid.Column="1" IsOn="{Binding DesktopNotifications, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border><Border Grid.Column="1" Style="{StaticResource SettingsRowStyle}"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="Player always on top" Foreground="{ThemeResource LumenTextBrush}" VerticalAlignment="Center"/><ToggleSwitch Grid.Column="1" IsOn="{Binding KeepPlayerOnTop, Mode=TwoWay}" Toggled="Setting_Toggled"/></Grid></Border></Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="AdvancedSection" Style="{StaticResource SettingsCardStyle}">
+                    <StackPanel Spacing="14">
+                        <StackPanel Spacing="3"><TextBlock Text="Advanced &amp; about" Foreground="{ThemeResource LumenTextBrush}" FontSize="20" FontWeight="SemiBold"/><TextBlock Text="Server tools, diagnostics and reference information." Foreground="{ThemeResource LumenSecondaryTextBrush}"/></StackPanel>
+
+                        <Border Style="{StaticResource SettingsRowStyle}" Visibility="{Binding IsAdministrator, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Spacing="10">
+                                <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Server administration" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="{Binding ServerName}" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8"><Button Content="Scan libraries" Style="{StaticResource LumenSecondaryButtonStyle}" Click="ScanLibraries_Click"/><Button Content="Dashboard" Style="{StaticResource LumenSecondaryButtonStyle}" Click="OpenDashboard_Click"/></StackPanel></Grid>
+                                <TextBlock x:Name="AdminStatus" Foreground="{ThemeResource LumenMutedBrush}" FontSize="11" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="12"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Artwork cache" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Clear cached artwork if images appear stale or corrupted." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/></StackPanel><Button Grid.Column="1" Content="Clear cache" Style="{StaticResource LumenSecondaryButtonStyle}" Click="ClearCache_Click"/></Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="12"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Diagnostics" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/><TextBlock Text="Copy a compact connection/offline summary for troubleshooting." Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"/><TextBlock x:Name="DiagnosticsStatus" Foreground="{ThemeResource LumenAccentSoftBrush}" FontSize="11"/></StackPanel><Button Grid.Column="1" Content="Copy diagnostics" Style="{StaticResource LumenSecondaryButtonStyle}" Click="CopyDiagnostics_Click"/></Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <StackPanel Spacing="9">
+                                <TextBlock Text="Player shortcuts" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/>
+                                <Grid ColumnSpacing="20" RowSpacing="7">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="145"/><ColumnDefinition Width="*"/><ColumnDefinition Width="145"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="Space / K" Foreground="{ThemeResource LumenTextBrush}"/><TextBlock Grid.Row="0" Grid.Column="1" Text="Play / pause" Foreground="{ThemeResource LumenSecondaryTextBrush}"/><TextBlock Grid.Row="0" Grid.Column="2" Text="Left / Right" Foreground="{ThemeResource LumenTextBrush}"/><TextBlock Grid.Row="0" Grid.Column="3" Text="−10s / +30s" Foreground="{ThemeResource LumenSecondaryTextBrush}"/>
+                                    <TextBlock Grid.Row="1" Text="F" Foreground="{ThemeResource LumenTextBrush}"/><TextBlock Grid.Row="1" Grid.Column="1" Text="Fullscreen" Foreground="{ThemeResource LumenSecondaryTextBrush}"/><TextBlock Grid.Row="1" Grid.Column="2" Text="Esc" Foreground="{ThemeResource LumenTextBrush}"/><TextBlock Grid.Row="1" Grid.Column="3" Text="Exit fullscreen" Foreground="{ThemeResource LumenSecondaryTextBrush}"/>
+                                    <TextBlock Grid.Row="2" Text="M" Foreground="{ThemeResource LumenTextBrush}"/><TextBlock Grid.Row="2" Grid.Column="1" Text="Mute" Foreground="{ThemeResource LumenSecondaryTextBrush}"/><TextBlock Grid.Row="2" Grid.Column="2" Text="Up / Down" Foreground="{ThemeResource LumenTextBrush}"/><TextBlock Grid.Row="2" Grid.Column="3" Text="Volume" Foreground="{ThemeResource LumenSecondaryTextBrush}"/>
+                                    <TextBlock Grid.Row="3" Text="Ctrl+D" Foreground="{ThemeResource LumenTextBrush}"/><TextBlock Grid.Row="3" Grid.Column="1" Text="Playback diagnostics" Foreground="{ThemeResource LumenSecondaryTextBrush}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource SettingsRowStyle}">
+                            <Grid ColumnSpacing="26"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><StackPanel Spacing="3"><TextBlock Text="Lumen" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10"/><TextBlock Text="{Binding AppVersion}" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/></StackPanel><StackPanel Grid.Column="1" Spacing="3"><TextBlock Text="Jellyfin server" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10"/><TextBlock Text="{Binding ServerVersion}" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold"/></StackPanel><StackPanel Grid.Column="2" Spacing="3"><TextBlock Text="Connection" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10"/><TextBlock Text="{Binding ConnectionStatus}" Foreground="{ThemeResource LumenTextBrush}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/></StackPanel></Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

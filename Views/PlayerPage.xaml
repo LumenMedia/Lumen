@@ -1,0 +1,888 @@
+<Page
+    x:Class="Lumen.Views.PlayerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Lumen.Controls"
+    KeyboardAcceleratorPlacementMode="Hidden">
+
+    <Page.Resources>
+
+        <Style x:Key="PlayerIconButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="42" />
+            <Setter Property="Height" Value="42" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Background" Value="{ThemeResource LumenGlassSurfaceBrush}" />
+            <Setter Property="Foreground" Value="{ThemeResource LumenTextBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="RootBorder"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Foreground="{TemplateBinding Foreground}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootBorder.Background" Value="{ThemeResource LumenHoverBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootBorder.Background" Value="{ThemeResource LumenSelectedBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootBorder.Opacity" Value="0.45" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PlayerPrimaryButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource PlayerIconButtonStyle}">
+            <Setter Property="Width" Value="58" />
+            <Setter Property="Height" Value="58" />
+            <Setter Property="CornerRadius" Value="18" />
+            <Setter Property="Background" Value="{ThemeResource LumenAccentGradientBrush}" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <Style x:Key="PlayerTimeStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI Variable Text" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{ThemeResource LumenSecondaryTextBrush}" />
+        </Style>
+    </Page.Resources>
+
+    <Page.KeyboardAccelerators>
+        <KeyboardAccelerator Key="Space" Invoked="PlaybackShortcut_Invoked" />
+        <KeyboardAccelerator Key="K" Invoked="PlaybackShortcut_Invoked" />
+        <KeyboardAccelerator Key="Left" Invoked="PlaybackShortcut_Invoked" />
+        <KeyboardAccelerator Key="Right" Invoked="PlaybackShortcut_Invoked" />
+        <KeyboardAccelerator Key="F" Invoked="PlaybackShortcut_Invoked" />
+        <KeyboardAccelerator Key="Escape" Invoked="PlaybackShortcut_Invoked" />
+        <KeyboardAccelerator Key="M" Invoked="PlaybackShortcut_Invoked" />
+        <KeyboardAccelerator Key="Up" Invoked="PlaybackShortcut_Invoked" />
+        <KeyboardAccelerator Key="Down" Invoked="PlaybackShortcut_Invoked" />
+        <KeyboardAccelerator Key="D" Modifiers="Control" Invoked="PlaybackShortcut_Invoked" />
+    </Page.KeyboardAccelerators>
+
+    <local:PlayerSurfaceGrid x:Name="PlayerRoot" Background="{ThemeResource LumenBackgroundBrush}">
+        <MediaPlayerElement x:Name="Player"
+                            AreTransportControlsEnabled="False"
+                            Stretch="Uniform"
+                            AutoPlay="True"
+                            IsHitTestVisible="False"
+                            RenderTransformOrigin="0.5,0.5">
+            <MediaPlayerElement.RenderTransform>
+                <CompositeTransform x:Name="PlayerCinematicTransform"
+                                    ScaleX="1" ScaleY="1" TranslateX="0" />
+            </MediaPlayerElement.RenderTransform>
+        </MediaPlayerElement>
+
+        <local:PlayerSurfaceGrid x:Name="PlayerInputSurface"
+                                 Background="Transparent"
+                                 Tapped="Player_Tapped" />
+
+        <Grid x:Name="TopChrome"
+              VerticalAlignment="Top"
+              Height="108"
+              Padding="30,24,30,24">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#E007070A" Offset="0" />
+                    <GradientStop Color="#A014111B" Offset="0.46" />
+                    <GradientStop Color="#0007070A" Offset="1" />
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Border Height="2"
+                    VerticalAlignment="Top"
+                    Margin="58,0,58,0"
+                    Background="{ThemeResource LumenAccentStrongBrush}"
+                    Opacity="0.45"
+                    CornerRadius="1"
+                    IsHitTestVisible="False" />
+
+            <Button HorizontalAlignment="Left"
+                    Style="{StaticResource PlayerIconButtonStyle}"
+                    Click="Back_Click"
+                    ToolTipService.ToolTip="Back">
+                <FontIcon Glyph="&#xE72B;"
+                          FontFamily="Segoe Fluent Icons"
+                          FontSize="17" />
+            </Button>
+
+            <Button HorizontalAlignment="Right"
+                    Style="{StaticResource PlayerIconButtonStyle}"
+                    Click="Close_Click"
+                    ToolTipService.ToolTip="Close player">
+                <FontIcon Glyph="&#xE711;"
+                          FontFamily="Segoe Fluent Icons"
+                          FontSize="15" />
+            </Button>
+        </Grid>
+
+        <Grid x:Name="ControlsOverlay"
+              VerticalAlignment="Bottom"
+              Height="276"
+              Padding="34,58,34,22">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#0007070A" Offset="0" />
+                    <GradientStop Color="#7414111B" Offset="0.34" />
+                    <GradientStop Color="#EC07070A" Offset="0.70" />
+                    <GradientStop Color="#FF07070A" Offset="1" />
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Border VerticalAlignment="Bottom"
+                    Background="{ThemeResource LumenGlassSurfaceBrush}"
+                    BorderBrush="{ThemeResource LumenBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="18"
+                    Padding="18,14"
+                    MaxWidth="1600"
+                    HorizontalAlignment="Stretch">
+            <Grid VerticalAlignment="Bottom" RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="36" />
+                    <RowDefinition Height="64" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="2,0,2,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid ColumnSpacing="11">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Width="3"
+                                Background="{ThemeResource LumenAccentBrush}"
+                                CornerRadius="2"
+                                Opacity="0.95" />
+                        <StackPanel Grid.Column="1" Spacing="2">
+                            <TextBlock Text="{Binding Title}"
+                                       Foreground="{ThemeResource LumenTextBrush}"
+                                       FontFamily="Segoe UI Variable Display"
+                                       FontSize="19"
+                                       FontWeight="SemiBold"
+                                       TextTrimming="CharacterEllipsis"
+                                       MaxLines="1" />
+                            <StackPanel Orientation="Horizontal" Spacing="7">
+                                <TextBlock Text="{Binding PlaybackModeLabel}"
+                                           Foreground="{ThemeResource LumenAccentSoftBrush}"
+                                           FontSize="10"
+                                           FontWeight="SemiBold" />
+                                <TextBlock Text="•"
+                                           Foreground="{ThemeResource LumenMutedBrush}"
+                                           FontSize="10" />
+                                <TextBlock Text="{Binding MediaDetailsLabel}"
+                                           Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                           FontSize="10"
+                                           TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Border Grid.Column="1"
+                            x:Name="SeekPreviewPanel"
+                            Visibility="Collapsed"
+                            Background="{ThemeResource LumenSidebarBrush}"
+                            BorderBrush="{ThemeResource LumenBorderStrongBrush}"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="7"
+                            Margin="12,-128,0,6">
+                        <StackPanel Width="184" Spacing="5">
+                            <Border Height="103" CornerRadius="8" Background="{ThemeResource LumenSurface2Brush}">
+                                <Image x:Name="SeekPreviewImage" Stretch="UniformToFill" />
+                            </Border>
+                            <Grid>
+                                <TextBlock x:Name="SeekPreviewChapterText"
+                                           Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                           FontSize="10"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock x:Name="SeekPreviewText"
+                                           HorizontalAlignment="Right"
+                                           Text="00:00"
+                                           Foreground="White"
+                                           FontSize="10"
+                                           FontWeight="SemiBold" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Row="1" Height="36" ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="58" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="CurrentTimeText"
+                               Grid.Column="0"
+                               Style="{StaticResource PlayerTimeStyle}"
+                               Text="00:00"
+                               Foreground="White"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Left" />
+
+                    <Grid Grid.Column="1" Height="36" VerticalAlignment="Center">
+                        <Slider x:Name="SeekSlider"
+                                Minimum="0"
+                                Maximum="1"
+                                Height="36"
+                                VerticalAlignment="Center"
+                                IsThumbToolTipEnabled="False"
+                                Foreground="{ThemeResource LumenAccentBrush}"
+                                ValueChanged="SeekSlider_ValueChanged"
+                                SizeChanged="SeekSlider_SizeChanged" />
+                        <Canvas x:Name="ChapterMarkersCanvas"
+                                Margin="8,0"
+                                Height="12"
+                                IsHitTestVisible="False"
+                                VerticalAlignment="Center" />
+                    </Grid>
+
+                    <TextBlock x:Name="DurationText"
+                               Grid.Column="2"
+                               Style="{StaticResource PlayerTimeStyle}"
+                               Text="00:00"
+                               HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid Grid.Row="2" Height="64">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal"
+                                Spacing="7"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                        <Button x:Name="MuteButton"
+                                Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="Mute_Click"
+                                ToolTipService.ToolTip="Mute / unmute">
+                            <TextBlock x:Name="VolumeGlyph"
+                                       Text="&#xE767;"
+                                       FontFamily="Segoe Fluent Icons"
+                                       FontSize="17" />
+                        </Button>
+
+                        <Slider x:Name="VolumeSlider"
+                                Width="92"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="100"
+                                VerticalAlignment="Center"
+                                Foreground="{ThemeResource LumenAccentBrush}"
+                                ValueChanged="VolumeSlider_ValueChanged"
+                                ToolTipService.ToolTip="Volume" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <Button Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="Back10_Click"
+                                ToolTipService.ToolTip="Back 10 seconds">
+                            <FontIcon Glyph="&#xE100;"
+                                      FontFamily="Segoe Fluent Icons"
+                                      FontSize="20" />
+                        </Button>
+
+                        <Button Style="{StaticResource PlayerPrimaryButtonStyle}"
+                                Click="PlayPause_Click"
+                                ToolTipService.ToolTip="Play / Pause">
+                            <TextBlock x:Name="PlayPauseGlyph"
+                                       Text="&#xE768;"
+                                       FontFamily="Segoe Fluent Icons"
+                                       FontSize="25"
+                                       Foreground="White" />
+                        </Button>
+
+                        <Button Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="Forward30_Click"
+                                ToolTipService.ToolTip="Forward 30 seconds">
+                            <FontIcon Glyph="&#xE101;"
+                                      FontFamily="Segoe Fluent Icons"
+                                      FontSize="20" />
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal"
+                                Spacing="6"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <Button Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="Audio_Click"
+                                ToolTipService.ToolTip="Audio track">
+                            <FontIcon Glyph="&#xE767;"
+                                      FontFamily="Segoe Fluent Icons"
+                                      FontSize="17" />
+                        </Button>
+
+                        <Button Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="Subtitle_Click"
+                                ToolTipService.ToolTip="Subtitles / captions">
+                            <TextBlock Text="CC"
+                                       FontFamily="Segoe UI Variable Text"
+                                       FontSize="11"
+                                       FontWeight="Bold"
+                                       CharacterSpacing="20" />
+                        </Button>
+
+                        <Button Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="Speed_Click"
+                                ToolTipService.ToolTip="Playback speed">
+                            <TextBlock Text="1×"
+                                       x:Name="SpeedGlyph"
+                                       FontFamily="Segoe UI Variable Text"
+                                       FontSize="11"
+                                       FontWeight="SemiBold" />
+                        </Button>
+
+                        <Button x:Name="NextEpisodeButton"
+                                Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="NextEpisode_Click"
+                                Visibility="{Binding HasNextEpisode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                ToolTipService.ToolTip="Next episode">
+                            <FontIcon Glyph="&#xE893;"
+                                      FontFamily="Segoe Fluent Icons"
+                                      FontSize="17" />
+                        </Button>
+
+                        <Button Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="Chapters_Click"
+                                ToolTipService.ToolTip="Chapters">
+                            <FontIcon Glyph="&#xE8A4;"
+                                      FontFamily="Segoe Fluent Icons"
+                                      FontSize="17" />
+                        </Button>
+
+                        <Button Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="SyncPlay_Click"
+                                ToolTipService.ToolTip="Watch Together / SyncPlay">
+                            <FontIcon Glyph="&#xE716;"
+                                      FontFamily="Segoe Fluent Icons"
+                                      FontSize="17" />
+                        </Button>
+
+                        <Button Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="PlaybackInfo_Click"
+                                ToolTipService.ToolTip="Playback info (Ctrl+D)">
+                            <FontIcon Glyph="&#xE946;"
+                                      FontFamily="Segoe Fluent Icons"
+                                      FontSize="17" />
+                        </Button>
+
+                        <Button x:Name="FullScreenButton"
+                                Style="{StaticResource PlayerIconButtonStyle}"
+                                Click="FullScreen_Click"
+                                ToolTipService.ToolTip="Fullscreen">
+                            <TextBlock x:Name="FullScreenGlyph"
+                                       Text="&#xE740;"
+                                       FontFamily="Segoe Fluent Icons"
+                                       FontSize="17" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            </Border>
+        </Grid>
+
+        <Border x:Name="BufferingIndicator"
+                Visibility="Collapsed"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource LumenGlassSurfaceBrush}"
+                CornerRadius="14"
+                Padding="16,10">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <ProgressRing Width="18" Height="18" IsActive="True" />
+                <TextBlock Text="Buffering…" Foreground="White" VerticalAlignment="Center" FontSize="12" />
+            </StackPanel>
+        </Border>
+
+        <Button x:Name="SkipSegmentButton"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,34,270"
+                Padding="18,10"
+                Background="{ThemeResource LumenAccentGradientBrush}"
+                Foreground="White"
+                BorderThickness="0"
+                CornerRadius="10"
+                Click="SkipSegment_Click">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock x:Name="SkipSegmentText" Text="Skip Intro" FontWeight="SemiBold" />
+                <FontIcon Glyph="&#xE76C;" FontFamily="Segoe Fluent Icons" FontSize="14" />
+            </StackPanel>
+        </Button>
+
+        <Grid x:Name="CreditsNextOverlay"
+              Visibility="Collapsed"
+              Background="#B8000000">
+            <Border HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="760"
+                    MaxWidth="760"
+                    Background="{ThemeResource LumenGlassSurfaceBrush}"
+                    BorderBrush="{ThemeResource LumenBorderStrongBrush}"
+                    BorderThickness="1"
+                    CornerRadius="22"
+                    Padding="22">
+                <Grid RowSpacing="18">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid ColumnSpacing="22">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="236" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Width="236"
+                                Height="133"
+                                CornerRadius="14"
+                                Background="{ThemeResource LumenSurfaceBrush}"
+                                BorderBrush="{ThemeResource LumenBorderBrush}"
+                                BorderThickness="1">
+                            <Image Source="{Binding NextEpisodeImageUrl}"
+                                   Stretch="UniformToFill" />
+                        </Border>
+
+                        <StackPanel Grid.Column="1"
+                                    Spacing="8"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="UP NEXT"
+                                       Foreground="{ThemeResource LumenAccentSoftBrush}"
+                                       FontSize="10"
+                                       FontWeight="SemiBold"
+                                       CharacterSpacing="120" />
+
+                            <TextBlock Text="{Binding SeriesName}"
+                                       Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                       FontSize="12"
+                                       FontWeight="SemiBold" />
+
+                            <TextBlock Text="{Binding NextEpisodeTitle}"
+                                       Foreground="White"
+                                       FontSize="22"
+                                       FontWeight="SemiBold"
+                                       TextWrapping="Wrap" />
+
+                            <TextBlock Text="{Binding NextEpisodeOverview}"
+                                       Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       MaxLines="3"
+                                       TextTrimming="CharacterEllipsis" />
+
+                            <TextBlock Text="Credits are playing"
+                                       Foreground="{ThemeResource LumenMutedBrush}"
+                                       FontSize="11" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0"
+                                Content="Play next episode"
+                                Click="CreditsPlayNext_Click"
+                                Style="{StaticResource LumenPrimaryButtonStyle}"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Padding="14,10" />
+                        <Button Grid.Column="1"
+                                Content="Keep watching"
+                                Click="CreditsKeepWatching_Click"
+                                Style="{StaticResource LumenSecondaryButtonStyle}"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Padding="14,10" />
+                        <Button Grid.Column="2"
+                                Content="Close player"
+                                Click="CreditsClosePlayer_Click"
+                                Background="Transparent"
+                                Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                BorderBrush="{ThemeResource LumenBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                Padding="14,10" />
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Border x:Name="UpNextPanel"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,34,270"
+                Width="520"
+                Background="{ThemeResource LumenGlassSurfaceBrush}"
+                BorderBrush="{ThemeResource LumenBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="18"
+                Padding="14">
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="128" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Width="128" Height="182" CornerRadius="12" Background="{ThemeResource LumenSurface2Brush}">
+                    <Image Source="{Binding NextEpisodeImageUrl}" Stretch="UniformToFill" />
+                </Border>
+                <StackPanel Grid.Column="1" Spacing="8" VerticalAlignment="Center">
+                    <TextBlock Text="UP NEXT" Foreground="{ThemeResource LumenAccentSoftBrush}" FontSize="10"
+                               FontWeight="SemiBold" CharacterSpacing="100" />
+                    <TextBlock Text="{Binding NextEpisodeTitle}" Foreground="White"
+                               FontSize="18" FontWeight="SemiBold" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding NextEpisodeOverview}" Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                               FontSize="11" TextWrapping="Wrap" MaxLines="4"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock x:Name="UpNextCountdownText" Text="Starting in 10 seconds"
+                               Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="11" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Play now" Click="PlayNext_Click"
+                                Background="{ThemeResource LumenAccentGradientBrush}" Foreground="White" BorderThickness="0"
+                                Padding="14,8" CornerRadius="9" />
+                        <Button Content="Cancel" Click="CancelUpNext_Click"
+                                Background="{ThemeResource LumenHoverBrush}" Foreground="White" BorderThickness="0"
+                                Padding="14,8" CornerRadius="9" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border x:Name="DiagnosticsPanel"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,112,28,0"
+                Width="410"
+                Background="{ThemeResource LumenGlassSurfaceBrush}"
+                BorderBrush="{ThemeResource LumenBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="16"
+                Padding="18">
+            <StackPanel Spacing="13">
+                <Grid>
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="Playback info"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding StatsMode}"
+                                   Foreground="{ThemeResource LumenAccentSoftBrush}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold" />
+                    </StackPanel>
+                    <TextBlock Text="Ctrl+D"
+                               HorizontalAlignment="Right"
+                               Foreground="{ThemeResource LumenMutedBrush}"
+                               FontSize="10" />
+                </Grid>
+
+                <Rectangle Height="1" Fill="{ThemeResource LumenBorderBrush}" />
+
+                <Grid ColumnSpacing="18" RowSpacing="9">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="92" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="VIDEO" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Column="1" Text="{Binding StatsVideo}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" />
+
+                    <TextBlock Grid.Row="1" Text="BITRATE" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StatsBitrate}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" />
+
+                    <TextBlock Grid.Row="2" Text="AUDIO" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding StatsAudio}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" TextWrapping="Wrap" />
+
+                    <TextBlock Grid.Row="3" Text="SUBTITLES" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StatsSubtitle}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" />
+
+                    <TextBlock Grid.Row="4" Text="CONTAINER" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding StatsContainer}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" />
+
+                    <TextBlock Grid.Row="5" Text="REASONS" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding StatsReasons}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" TextWrapping="Wrap" />
+                    <TextBlock Grid.Row="6" Text="SERVER" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding StatsServer}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" />
+                    <TextBlock Grid.Row="7" Text="OUTPUT" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding StatsOutput}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" />
+                    <TextBlock Grid.Row="8" Text="HDR" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding StatsHdr}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" />
+                    <TextBlock Grid.Row="9" Text="FPS" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding StatsFrameRate}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" />
+                    <TextBlock Grid.Row="10" Text="TRANSCODE" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="10" Grid.Column="1" Foreground="{ThemeResource LumenTextBrush}" FontSize="11">
+                        <Run Text="{Binding StatsTranscodeSpeed}" /><Run Text="  " /><Run Text="{Binding StatsTranscodeProgress}" />
+                    </TextBlock>
+                    <TextBlock Grid.Row="11" Text="HARDWARE" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" FontWeight="SemiBold" />
+                    <TextBlock Grid.Row="11" Grid.Column="1" Text="{Binding StatsHardware}" Foreground="{ThemeResource LumenTextBrush}" FontSize="11" />
+                </Grid>
+
+                <Border Background="#0FFFFFFF" CornerRadius="9" Padding="10,7">
+                    <TextBlock x:Name="DiagnosticsPositionText"
+                               Foreground="{ThemeResource LumenAccentSoftBrush}"
+                               FontFamily="Consolas"
+                               FontSize="10" />
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <Border x:Name="ChaptersPanel"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,34,126"
+                Width="380"
+                MaxHeight="460"
+                Background="{ThemeResource LumenSidebarBrush}"
+                BorderBrush="{ThemeResource LumenBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="16"
+                Padding="16">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Chapters" Foreground="White" FontSize="17" FontWeight="SemiBold" />
+                <ListView ItemsSource="{Binding Chapters}" IsItemClickEnabled="True"
+                          SelectionMode="None" ItemClick="ChaptersList_ItemClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="4,6" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="86" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Width="86" Height="48" CornerRadius="7" Background="{ThemeResource LumenSurface2Brush}">
+                                    <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                </Border>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" Foreground="White" FontSize="12" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding TimeText}" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Border>
+
+        <Border x:Name="SyncPlayPanel"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,34,126"
+                Width="390"
+                Background="{ThemeResource LumenSidebarBrush}"
+                BorderBrush="{ThemeResource LumenBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="16"
+                Padding="16">
+            <StackPanel Spacing="11">
+                <TextBlock Text="Watch Together" Foreground="White" FontSize="17" FontWeight="SemiBold" />
+                <TextBlock Text="Create or join a Jellyfin SyncPlay group."
+                           Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="11" TextWrapping="Wrap" />
+                <TextBox x:Name="SyncPlayGroupName" PlaceholderText="Group name" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="Create" Click="SyncPlayCreate_Click" />
+                    <Button Content="Leave group" Click="SyncPlayLeave_Click" />
+                </StackPanel>
+                <ListView x:Name="SyncPlayGroupsList" IsItemClickEnabled="True"
+                          SelectionMode="None" ItemClick="SyncPlayGroupsList_ItemClick"
+                          MaxHeight="220">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="6" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding GroupName}" Foreground="White" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding State}" Foreground="{ThemeResource LumenMutedBrush}" FontSize="10" />
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="Join" Foreground="{ThemeResource LumenAccentSoftBrush}" VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <TextBlock x:Name="SyncPlayStatus" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="10" TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+
+        <Border x:Name="AudioPanel"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,34,126"
+                Width="340"
+                Background="{ThemeResource LumenSidebarBrush}"
+                BorderBrush="{ThemeResource LumenBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="16"
+                Padding="18,16">
+            <StackPanel Spacing="12">
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Audio"
+                               Foreground="White"
+                               FontFamily="Segoe UI Variable Display"
+                               FontSize="17"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="Choose an audio track"
+                               Foreground="{ThemeResource LumenMutedBrush}"
+                               FontFamily="Segoe UI Variable Text"
+                               FontSize="11" />
+                </StackPanel>
+                <ComboBox ItemsSource="{Binding AudioChoices}"
+                          DisplayMemberPath="Label"
+                          SelectedValuePath="Index"
+                          SelectedValue="{Binding SelectedAudioIndex, Mode=TwoWay}"
+                          SelectionChanged="Audio_SelectionChanged"
+                          HorizontalAlignment="Stretch" />
+            </StackPanel>
+        </Border>
+
+        <Border x:Name="SubtitlePanel"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,34,126"
+                Width="340"
+                Background="{ThemeResource LumenSidebarBrush}"
+                BorderBrush="{ThemeResource LumenBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="16"
+                Padding="18,16">
+            <StackPanel Spacing="12">
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Subtitles"
+                               Foreground="White"
+                               FontFamily="Segoe UI Variable Display"
+                               FontSize="17"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="Choose a subtitle track"
+                               Foreground="{ThemeResource LumenMutedBrush}"
+                               FontFamily="Segoe UI Variable Text"
+                               FontSize="11" />
+                </StackPanel>
+                <ComboBox ItemsSource="{Binding SubtitleChoices}"
+                          DisplayMemberPath="Label"
+                          SelectedValuePath="Index"
+                          SelectedValue="{Binding SelectedSubtitleIndex, Mode=TwoWay}"
+                          SelectionChanged="Subtitle_SelectionChanged"
+                          HorizontalAlignment="Stretch" />
+            </StackPanel>
+        </Border>
+
+        <Border x:Name="SpeedPanel"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,34,126"
+                Width="260"
+                Background="{ThemeResource LumenSidebarBrush}"
+                BorderBrush="{ThemeResource LumenBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="16"
+                Padding="18,16">
+            <StackPanel Spacing="12">
+                <TextBlock Text="Playback speed" Foreground="White"
+                           FontSize="17" FontWeight="SemiBold" />
+                <ComboBox x:Name="SpeedComboBox" SelectedIndex="3"
+                          SelectionChanged="Speed_SelectionChanged">
+                    <ComboBoxItem Content="0.5×" Tag="0.5" />
+                    <ComboBoxItem Content="0.75×" Tag="0.75" />
+                    <ComboBoxItem Content="0.9×" Tag="0.9" />
+                    <ComboBoxItem Content="1×" Tag="1.0" />
+                    <ComboBoxItem Content="1.25×" Tag="1.25" />
+                    <ComboBoxItem Content="1.5×" Tag="1.5" />
+                    <ComboBoxItem Content="2×" Tag="2.0" />
+                </ComboBox>
+            </StackPanel>
+        </Border>
+
+        <Border x:Name="ErrorPanel"
+                Visibility="Collapsed"
+                Background="{ThemeResource LumenGlassSurfaceBrush}"
+                BorderBrush="{ThemeResource LumenBorderStrongBrush}"
+                BorderThickness="1"
+                CornerRadius="16"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Padding="26"
+                MaxWidth="640">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Playback error"
+                           Foreground="White"
+                           FontFamily="Segoe UI Variable Display"
+                           FontSize="20"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                           FontFamily="Segoe UI Variable Text"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+    </local:PlayerSurfaceGrid>
+</Page>

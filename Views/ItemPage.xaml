@@ -1,0 +1,490 @@
+<Page
+    x:Class="Lumen.Views.ItemPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Page.Resources>
+
+        <Style x:Key="ItemMediaTileButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="UseSystemFocusVisuals" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="TileRoot"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="TileContent" Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="TileRoot.Background" Value="#109567E8" />
+                                            <Setter Target="TileRoot.BorderBrush" Value="#36B48CFF" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="TileRoot.Background" Value="#1C9567E8" />
+                                            <Setter Target="TileRoot.BorderBrush" Value="#62B48CFF" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="TileRoot.Opacity" Value="0.45" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ItemCleanTileButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="UseSystemFocusVisuals" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter x:Name="TileContent" Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver" />
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="TileContent.Opacity" Value="0.94" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="TileContent.Opacity" Value="0.45" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ItemEpisodeTileButtonStyle" TargetType="Button" BasedOn="{StaticResource ItemCleanTileButtonStyle}">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+
+        <Style x:Key="ItemCastTileButtonStyle" TargetType="Button" BasedOn="{StaticResource ItemCleanTileButtonStyle}">
+            <Setter Property="Width" Value="108" />
+            <Setter Property="Padding" Value="6,7" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+        </Style>
+    </Page.Resources>
+    <ScrollViewer x:Name="ItemPageScrollViewer" VerticalScrollBarVisibility="Auto">
+        <Grid MinHeight="900" Background="{ThemeResource LumenBackgroundBrush}">
+            <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="520" Opacity="0" Tag="0.64" ImageOpened="Artwork_ImageOpened" />
+            <Border Height="570" VerticalAlignment="Top">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0" Color="#12000000" />
+                        <GradientStop Offset="0.44" Color="#700B0910" />
+                        <GradientStop Offset="0.80" Color="#F507070A" />
+                        <GradientStop Offset="1" Color="#FF07070A" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <StackPanel Margin="54,270,54,60" Spacing="28">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="260" />
+                        <ColumnDefinition Width="38" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Width="260" Height="390" CornerRadius="16"
+                            Background="{ThemeResource LumenSurfaceBrush}" VerticalAlignment="Top">
+                        <Image Source="{Binding PosterUrl}" Stretch="UniformToFill" Opacity="0" ImageOpened="Artwork_ImageOpened" />
+                    </Border>
+
+                    <StackPanel Grid.Column="2" Spacing="12" MaxWidth="940" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" Spacing="7"
+                                    Visibility="{Binding IsEpisode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Button Content="{Binding SeriesBreadcrumbText}" Click="SeriesBreadcrumb_Click"
+                                    Background="Transparent" BorderThickness="0" Padding="0"
+                                    Foreground="{ThemeResource LumenAccentSoftBrush}" />
+                            <TextBlock Text="›" Foreground="{ThemeResource LumenMutedBrush}" VerticalAlignment="Center" />
+                            <Button Content="{Binding SeasonBreadcrumbText}" Click="SeasonBreadcrumb_Click"
+                                    Background="Transparent" BorderThickness="0" Padding="0"
+                                    Foreground="{ThemeResource LumenAccentSoftBrush}" />
+                            <TextBlock Text="›" Foreground="{ThemeResource LumenMutedBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding EpisodeBreadcrumbText}"
+                                       Foreground="{ThemeResource LumenSecondaryTextBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Image Source="{Binding LogoUrl}" MaxWidth="480" MaxHeight="150"
+                               HorizontalAlignment="Left" Stretch="Uniform"
+                               Opacity="0" ImageOpened="Artwork_ImageOpened"
+                               Visibility="{Binding HasLogo, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock Text="{Binding Tagline}" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{ThemeResource LumenAccentSoftBrush}"
+                                   CharacterSpacing="60" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Name}" FontSize="46" FontWeight="SemiBold"
+                                   Foreground="{ThemeResource LumenTextBrush}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Subtitle}" FontSize="15" Foreground="{ThemeResource LumenSecondaryTextBrush}" />
+                        <ItemsControl ItemsSource="{Binding GenreChoices}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><StackPanel Orientation="Horizontal" Spacing="8" /></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Tag="{Binding}" Click="Genre_Click"
+                                            Padding="10,5" CornerRadius="12"
+                                            Background="{ThemeResource LumenHoverBrush}" BorderThickness="0">
+                                        <TextBlock Text="{Binding Name}" FontSize="12"
+                                                   Foreground="{ThemeResource LumenAccentSoftBrush}" />
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="{Binding Overview}" FontSize="16" Foreground="{ThemeResource LumenTextBrush}"
+                                   TextWrapping="Wrap" LineHeight="27" MaxWidth="880" />
+                        <Border HorizontalAlignment="Left"
+                                Background="{ThemeResource LumenHoverBrush}"
+                                BorderBrush="{ThemeResource LumenBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="10,5">
+                            <TextBlock Text="{Binding TechnicalInfo}" FontSize="12"
+                                       Foreground="{ThemeResource LumenSecondaryTextBrush}" />
+                        </Border>
+
+                        <StackPanel Margin="0,8,0,0" Spacing="10">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <Button Click="Resume_Click" Padding="20,10" Background="{ThemeResource LumenAccentGradientBrush}" Foreground="White"
+                                        BorderThickness="0"
+                                        Visibility="{Binding HasResume, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <FontIcon Glyph="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="15" />
+                                        <TextBlock Text="Resume" FontSize="14" FontWeight="SemiBold" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Click="PlayFromBeginning_Click" Padding="20,10"
+                                        Background="{ThemeResource LumenHoverBrush}" Foreground="White" BorderThickness="0"
+                                        Visibility="{Binding IsPlayable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <FontIcon Glyph="&#xE768;" FontFamily="Segoe Fluent Icons" FontSize="15" />
+                                        <TextBlock Text="Play" FontSize="14" FontWeight="SemiBold" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="DownloadButton" Click="Download_Click" Padding="16,10"
+                                        Background="{ThemeResource LumenHoverBrush}" BorderThickness="0"
+                                        Visibility="{Binding IsPlayable, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        ToolTipService.ToolTip="Download for offline playback">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <FontIcon x:Name="DownloadButtonIcon" Glyph="&#xE896;" FontFamily="Segoe Fluent Icons" FontSize="15" />
+                                        <TextBlock x:Name="DownloadButtonText" Text="Download" FontSize="14" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Click="Favorite_Click" Padding="16,10" Background="{ThemeResource LumenHoverBrush}" BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <FontIcon Glyph="&#xE734;" FontFamily="Segoe Fluent Icons" FontSize="15" />
+                                        <TextBlock Text="{Binding FavoriteActionText}" FontSize="14" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Click="Played_Click" Padding="16,10" Background="{ThemeResource LumenHoverBrush}" BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <FontIcon Glyph="&#xE73E;" FontFamily="Segoe Fluent Icons" FontSize="15" />
+                                        <TextBlock Text="{Binding PlayedActionText}" FontSize="14" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="12"
+                                        Visibility="{Binding IsPlayable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel Width="190" Spacing="5">
+                                    <TextBlock Text="Quality"
+                                               Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                               FontSize="11" />
+                                    <ComboBox x:Name="QualityComboBox"
+                                              Width="190"
+                                              ItemsSource="{Binding QualityChoices}"
+                                              DisplayMemberPath="Label"
+                                              SelectedItem="{Binding SelectedQualityChoice, Mode=TwoWay}" />
+                                </StackPanel>
+                                <StackPanel Width="220" Spacing="5">
+                                    <TextBlock Text="Audio"
+                                               Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                               FontSize="11" />
+                                    <ComboBox x:Name="AudioComboBox"
+                                              Width="220"
+                                              ItemsSource="{Binding AudioChoices}"
+                                              DisplayMemberPath="Label"
+                                              SelectedItem="{Binding SelectedAudioChoice, Mode=TwoWay}" />
+                                </StackPanel>
+                                <StackPanel Width="200" Spacing="5">
+                                    <TextBlock Text="Subtitles"
+                                               Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                               FontSize="11" />
+                                    <ComboBox x:Name="SubtitleComboBox"
+                                              Width="200"
+                                              ItemsSource="{Binding SubtitleChoices}"
+                                              DisplayMemberPath="Label"
+                                              SelectedItem="{Binding SelectedSubtitleChoice, Mode=TwoWay}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <Border Visibility="{Binding IsSeries, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Background="{ThemeResource LumenGlassSurfaceBrush}" BorderBrush="{ThemeResource LumenBorderBrush}" BorderThickness="1" CornerRadius="18" Padding="24">
+                    <StackPanel Spacing="16">
+                        <Grid>
+                            <TextBlock Text="Episodes" FontSize="22" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" />
+                            <ComboBox ItemsSource="{Binding Seasons}"
+                                      SelectedItem="{Binding SelectedSeason, Mode=TwoWay}"
+                                      SelectionChanged="Season_SelectionChanged"
+                                      Width="220" HorizontalAlignment="Right" />
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding Episodes}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Tag="{Binding}" Click="Episode_Click" RightTapped="MediaCard_RightTapped"
+                                            Style="{StaticResource ItemEpisodeTileButtonStyle}" Margin="0,0,18,20">
+                                        <Grid Width="240">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="135" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Border CornerRadius="12" Background="{ThemeResource LumenSurfaceBrush}"
+                                                    BorderBrush="Transparent" BorderThickness="1"
+                                                    PointerEntered="MediaArtwork_PointerEntered"
+                                                    PointerExited="MediaArtwork_PointerExited">
+                                                <Grid>
+                                                    <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" Opacity="0" ImageOpened="Artwork_ImageOpened" />
+                                                    <Border x:Name="ArtworkHoverWash" Background="Transparent" IsHitTestVisible="False" CornerRadius="11" />
+                                                    <ProgressBar Value="{Binding Progress}" Maximum="100" Height="3"
+                                                                 VerticalAlignment="Bottom"
+                                                                 Visibility="{Binding HasProgress, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                </Grid>
+                                            </Border>
+                                            <StackPanel Grid.Row="1" Margin="2,8,2,0" Spacing="2">
+                                                <TextBlock Text="{Binding Name}" Foreground="White" FontSize="13"
+                                                           FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding Subtitle}" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="11" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <Border Visibility="{Binding IsEpisode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Background="{ThemeResource LumenGlassSurfaceBrush}" BorderBrush="{ThemeResource LumenBorderBrush}" BorderThickness="1" CornerRadius="18" Padding="24">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="More episodes" FontSize="22" FontWeight="SemiBold" Foreground="White"/>
+                        <ItemsControl ItemsSource="{Binding Episodes}">
+                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><ItemsWrapGrid Orientation="Horizontal"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate><DataTemplate>
+                                <Button Tag="{Binding}" Click="Episode_Click"
+                                        Style="{StaticResource ItemEpisodeTileButtonStyle}" Margin="0,0,18,18">
+                                    <StackPanel Width="240" Spacing="7">
+                                        <Border Width="240" Height="135" CornerRadius="12" Background="{ThemeResource LumenSurfaceBrush}"
+                                                BorderBrush="Transparent" BorderThickness="1"
+                                                PointerEntered="MediaArtwork_PointerEntered"
+                                                PointerExited="MediaArtwork_PointerExited">
+                                            <Grid>
+                                                <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" Opacity="0" ImageOpened="Artwork_ImageOpened"/>
+                                                <Border x:Name="ArtworkHoverWash" Background="Transparent" IsHitTestVisible="False" CornerRadius="11" />
+                                            </Grid>
+                                        </Border>
+                                        <TextBlock Text="{Binding Name}" Foreground="White" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding Subtitle}" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="11"/>
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate></ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <Border Visibility="{Binding HasCollectionItems, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Background="{ThemeResource LumenGlassSurfaceBrush}" BorderBrush="{ThemeResource LumenBorderBrush}" BorderThickness="1" CornerRadius="18" Padding="24">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Collection" FontSize="22" FontWeight="SemiBold" Foreground="White" />
+                        <ItemsControl ItemsSource="{Binding CollectionItems}">
+                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><ItemsWrapGrid Orientation="Horizontal" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Tag="{Binding}" Click="CollectionItem_Click" RightTapped="MediaCard_RightTapped"
+                                            Style="{StaticResource ItemMediaTileButtonStyle}" Margin="0,0,18,0">
+                                        <StackPanel Width="150" Spacing="7">
+                                            <Border Width="150" Height="225" CornerRadius="10" Background="{ThemeResource LumenSurfaceBrush}">
+                                                <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" Opacity="0" ImageOpened="Artwork_ImageOpened" />
+                                            </Border>
+                                            <TextBlock Text="{Binding Name}" Foreground="White" FontSize="13"
+                                                       FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding Subtitle}" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="11" />
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <Border Visibility="{Binding HasExtras, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Background="{ThemeResource LumenGlassSurfaceBrush}" BorderBrush="{ThemeResource LumenBorderBrush}" BorderThickness="1" CornerRadius="18" Padding="24">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Extras" FontSize="22" FontWeight="SemiBold" Foreground="White" />
+                        <TextBlock Text="Trailers, featurettes, interviews, deleted scenes and other bonus content."
+                                   Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12" />
+                        <ItemsControl ItemsSource="{Binding Extras}">
+                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><ItemsWrapGrid Orientation="Horizontal" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Tag="{Binding}" Click="Extra_Click"
+                                            Style="{StaticResource ItemMediaTileButtonStyle}" Margin="0,0,18,0">
+                                        <StackPanel Width="220" Spacing="7">
+                                            <Border Width="220" Height="124" CornerRadius="10" Background="{ThemeResource LumenSurfaceBrush}">
+                                                <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" Opacity="0" ImageOpened="Artwork_ImageOpened" />
+                                            </Border>
+                                            <TextBlock Text="{Binding Name}" Foreground="White" FontSize="13"
+                                                       FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <Border Visibility="{Binding HasCast, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Background="{ThemeResource LumenGlassSurfaceBrush}" BorderBrush="{ThemeResource LumenBorderBrush}" BorderThickness="1" CornerRadius="18" Padding="24,20">
+                    <StackPanel Spacing="14">
+                        <Grid>
+                            <TextBlock Text="Cast &amp; Crew" FontSize="22" FontWeight="SemiBold"
+                                       Foreground="White" VerticalAlignment="Center" />
+                            <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                                <Button Width="34" Height="34" Padding="0"
+                                        Background="{ThemeResource LumenHoverBrush}" BorderThickness="0"
+                                        Click="CastPrevious_Click"
+                                        ToolTipService.ToolTip="Previous cast">
+                                    <FontIcon Glyph="&#xE76B;" FontFamily="Segoe Fluent Icons" FontSize="14" />
+                                </Button>
+                                <Button Width="34" Height="34" Padding="0"
+                                        Background="{ThemeResource LumenHoverBrush}" BorderThickness="0"
+                                        Click="CastNext_Click"
+                                        ToolTipService.ToolTip="Next cast">
+                                    <FontIcon Glyph="&#xE76C;" FontFamily="Segoe Fluent Icons" FontSize="14" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+
+                        <ScrollViewer x:Name="CastScrollViewer"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      HorizontalScrollMode="Enabled"
+                                      VerticalScrollBarVisibility="Disabled"
+                                      VerticalScrollMode="Disabled">
+                            <ItemsControl x:Name="CastItemsControl" ItemsSource="{Binding Cast}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" Spacing="18" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Tag="{Binding}"
+                                                Click="CastMember_Click"
+                                                Style="{StaticResource ItemCastTileButtonStyle}"
+                                                ToolTipService.ToolTip="{Binding Name}">
+                                            <StackPanel Width="94" Spacing="7" HorizontalAlignment="Center">
+                                                <Border Width="76" Height="76" HorizontalAlignment="Center"
+                                                        CornerRadius="38" Background="{ThemeResource LumenSurface2Brush}"
+                                                        BorderBrush="Transparent" BorderThickness="1"
+                                                        PointerEntered="MediaArtwork_PointerEntered"
+                                                        PointerExited="MediaArtwork_PointerExited">
+                                                    <Grid>
+                                                        <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" Opacity="0" ImageOpened="Artwork_ImageOpened" />
+                                                        <Border x:Name="ArtworkHoverWash" Background="Transparent" IsHitTestVisible="False" CornerRadius="37" />
+                                                    </Grid>
+                                                </Border>
+                                                <TextBlock Text="{Binding Name}" Foreground="White" FontSize="13"
+                                                           TextWrapping="Wrap" MaxLines="2" TextAlignment="Center" HorizontalAlignment="Stretch" />
+                                                <TextBlock Text="{Binding Role}" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="11"
+                                                           TextWrapping="Wrap" MaxLines="2" TextAlignment="Center" HorizontalAlignment="Stretch" />
+                                            </StackPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+
+                <Border Visibility="{Binding HasSimilar, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Background="{ThemeResource LumenGlassSurfaceBrush}" BorderBrush="{ThemeResource LumenBorderBrush}" BorderThickness="1" CornerRadius="18" Padding="24">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="More like this" FontSize="22" FontWeight="SemiBold" Foreground="White" />
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" HorizontalScrollMode="Enabled"
+                                      VerticalScrollBarVisibility="Disabled">
+                            <ItemsControl ItemsSource="{Binding SimilarItems}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Tag="{Binding}" Click="Similar_Click" RightTapped="MediaCard_RightTapped"
+                                                Style="{StaticResource ItemMediaTileButtonStyle}" Margin="0,0,18,0">
+                                            <StackPanel Width="150" Spacing="7">
+                                                <Border Width="150" Height="225" CornerRadius="10" Background="{ThemeResource LumenSurfaceBrush}">
+                                                    <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" Opacity="0" ImageOpened="Artwork_ImageOpened" />
+                                                </Border>
+                                                <TextBlock Text="{Binding Name}" Foreground="White" FontSize="13"
+                                                           FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding Subtitle}" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="11" />
+                                            </StackPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <ProgressRing IsActive="{Binding IsBusy}" HorizontalAlignment="Center"
+                          VerticalAlignment="Center" Width="46" Height="46" />
+        </Grid>
+    </ScrollViewer>
+</Page>

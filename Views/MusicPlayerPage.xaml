@@ -1,0 +1,130 @@
+<Page x:Class="Lumen.Views.MusicPlayerPage"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <Grid Background="{ThemeResource LumenBackgroundBrush}">
+
+  <Grid Margin="42,28,42,34">
+   <Grid.RowDefinitions>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="*"/>
+   </Grid.RowDefinitions>
+
+   <Grid Margin="0,0,0,20">
+    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+     <Button x:Name="LyricsToggleButton" Content="Hide lyrics" Padding="14,7" Click="ToggleLyrics_Click"/>
+    </StackPanel>
+   </Grid>
+
+   <Grid x:Name="NowPlayingGrid" Grid.Row="1" ColumnSpacing="46">
+    <Grid.ColumnDefinitions>
+     <ColumnDefinition x:Name="ArtworkColumn" Width="*"/>
+     <ColumnDefinition x:Name="LyricsColumn" Width="0.92*"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid x:Name="ArtworkPane">
+     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="18" MaxWidth="700">
+      <Border x:Name="ArtworkCard" Width="480" Height="480" MaxWidth="680" MaxHeight="680"
+              CornerRadius="24" Background="{ThemeResource LumenSurfaceBrush}" BorderBrush="{ThemeResource LumenBorderBrush}" BorderThickness="1">
+       <Image x:Name="Artwork" Stretch="UniformToFill"/>
+      </Border>
+
+      <StackPanel Spacing="4" Width="480" MaxWidth="680">
+       <TextBlock x:Name="TrackTitle" FontSize="28" FontWeight="SemiBold" Foreground="White"
+                  TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+       <Button x:Name="ArtistButton"
+               Click="Artist_Click"
+               Background="Transparent"
+               BorderThickness="0"
+               Padding="0"
+               HorizontalAlignment="Left">
+        <TextBlock x:Name="ArtistText" FontSize="16" Foreground="{ThemeResource LumenAccentSoftBrush}" TextTrimming="CharacterEllipsis"/>
+       </Button>
+       <TextBlock x:Name="AlbumText" FontSize="13" Foreground="{ThemeResource LumenSecondaryTextBrush}" TextTrimming="CharacterEllipsis"/>
+      </StackPanel>
+
+      <Grid Width="480" MaxWidth="680">
+       <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+       <Slider x:Name="PositionSlider" Minimum="0" ValueChanged="PositionSlider_ValueChanged"/>
+       <Grid Grid.Row="1" Margin="0,2,0,0">
+        <TextBlock x:Name="PositionText" Foreground="{ThemeResource LumenMutedBrush}" FontSize="11"/>
+        <TextBlock x:Name="DurationText" HorizontalAlignment="Right" Foreground="{ThemeResource LumenMutedBrush}" FontSize="11"/>
+       </Grid>
+      </Grid>
+
+      <Grid x:Name="TransportControls" Width="480" MaxWidth="680">
+       <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+       </Grid.ColumnDefinitions>
+       <Button x:Name="ShuffleButton" Grid.Column="1" Width="42" Height="42" CornerRadius="21"
+               ToolTipService.ToolTip="Shuffle" Click="Shuffle_Click">
+        <FontIcon Glyph="&#xE8B1;" FontFamily="Segoe Fluent Icons" FontSize="16"/>
+       </Button>
+       <Button Grid.Column="2" Width="48" Height="48" CornerRadius="24" Margin="10,0,0,0" Click="Previous_Click">
+        <FontIcon Glyph="&#xE892;" FontFamily="Segoe Fluent Icons"/>
+       </Button>
+       <Button Grid.Column="3" Width="64" Height="64" CornerRadius="32" Margin="14,0"
+               Background="{ThemeResource LumenAccentGradientBrush}" Click="PlayPause_Click">
+        <FontIcon x:Name="PlayPauseIcon" Glyph="&#xE769;" FontFamily="Segoe Fluent Icons" FontSize="22"/>
+       </Button>
+       <Button Grid.Column="4" Width="48" Height="48" CornerRadius="24" Margin="0,0,10,0" Click="Next_Click">
+        <FontIcon Glyph="&#xE893;" FontFamily="Segoe Fluent Icons"/>
+       </Button>
+       <Button x:Name="RepeatButton" Grid.Column="5" Width="42" Height="42" CornerRadius="21"
+               HorizontalAlignment="Left" ToolTipService.ToolTip="Repeat off" Click="Repeat_Click">
+        <FontIcon x:Name="RepeatIcon" Glyph="&#xE8EE;" FontFamily="Segoe Fluent Icons" FontSize="16"/>
+       </Button>
+      </Grid>
+     </StackPanel>
+    </Grid>
+
+    <Border x:Name="LyricsPanel" Grid.Column="1" Background="{ThemeResource LumenGlassSurfaceBrush}"
+            BorderBrush="{ThemeResource LumenBorderBrush}" BorderThickness="1" CornerRadius="24" Padding="30">
+     <Grid>
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+      <Grid>
+       <TextBlock Text="Lyrics" FontSize="25" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+       <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+        <TextBlock x:Name="AutoSyncStatusText" Foreground="{ThemeResource LumenSecondaryTextBrush}" FontSize="12"
+                   VerticalAlignment="Center" Margin="0,0,4,0"/>
+        <Button x:Name="AutoSyncLyricsButton" Content="Auto Sync" Padding="14,7"
+                ToolTipService.ToolTip="Automatically align these lyrics to the current recording"
+                Click="AutoSyncLyrics_Click"/>
+        <Button x:Name="LyricsOptionsButton" Content="⋯" Width="38" Height="34"
+                ToolTipService.ToolTip="Lyric sync options">
+         <Button.Flyout>
+          <MenuFlyout>
+           <MenuFlyoutItem x:Name="LyricsOffsetStatusMenuItem" Text="Offset 0.0s" IsEnabled="False"/>
+           <MenuFlyoutSeparator/>
+           <MenuFlyoutItem Text="Lyrics 1.0s earlier" Tag="-1.0" Click="LyricsOffsetMenuItem_Click"/>
+           <MenuFlyoutItem Text="Lyrics 0.5s earlier" Tag="-0.5" Click="LyricsOffsetMenuItem_Click"/>
+           <MenuFlyoutItem Text="Lyrics 0.1s earlier" Tag="-0.1" Click="LyricsOffsetMenuItem_Click"/>
+           <MenuFlyoutSeparator/>
+           <MenuFlyoutItem Text="Lyrics 0.1s later" Tag="0.1" Click="LyricsOffsetMenuItem_Click"/>
+           <MenuFlyoutItem Text="Lyrics 0.5s later" Tag="0.5" Click="LyricsOffsetMenuItem_Click"/>
+           <MenuFlyoutItem Text="Lyrics 1.0s later" Tag="1.0" Click="LyricsOffsetMenuItem_Click"/>
+           <MenuFlyoutSeparator/>
+           <MenuFlyoutItem Text="Reset lyric sync" Click="LyricsOffsetReset_Click"/>
+          </MenuFlyout>
+         </Button.Flyout>
+        </Button>
+        <Button x:Name="FindLyricsButton" Content="Find lyrics" Padding="14,7"
+                Click="FindLyrics_Click" Visibility="Collapsed"/>
+        <Button x:Name="ReplaceLyricsButton" Content="Replace lyrics" Padding="14,7"
+                Click="ReplaceLyrics_Click" Visibility="Collapsed"/>
+       </StackPanel>
+      </Grid>
+      <ScrollViewer x:Name="LyricsScrollViewer" Grid.Row="1" Margin="0,22,0,0"
+                    VerticalScrollBarVisibility="Auto">
+       <ItemsControl x:Name="LyricsItems"/>
+      </ScrollViewer>
+     </Grid>
+    </Border>
+   </Grid>
+  </Grid>
+ </Grid>
+</Page>

@@ -1,0 +1,821 @@
+﻿"DeployProject"
+{
+"VSVersion" = "3:800"
+"ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
+"IsWebType" = "8:FALSE"
+"ProjectName" = "8:Lumen.Setup"
+"LanguageId" = "3:1033"
+"CodePage" = "3:1252"
+"UILanguageId" = "3:1033"
+"SccProjectName" = "8:"
+"SccLocalPath" = "8:"
+"SccAuxPath" = "8:"
+"SccProvider" = "8:"
+"Hierarchy"
+{
+"Entry"
+{
+"MsmKey" = "8:_A0F4B72D18F54CF19AC0C3540D9A1411"
+"OwnerKey" = "8:_UNDEFINED"
+"MsmSig" = "8:_UNDEFINED"
+}
+"Entry"
+{
+"MsmKey" = "8:_B5A9827C0D694F3FA3C7D3A8EE2A8395"
+"OwnerKey" = "8:_UNDEFINED"
+"MsmSig" = "8:_UNDEFINED"
+}
+}
+"Configurations"
+{
+"Debug"
+{
+"DisplayName" = "8:Debug"
+"IsDebugOnly" = "11:TRUE"
+"IsReleaseOnly" = "11:FALSE"
+"OutputFilename" = "8:Debug\\Lumen-Setup-1.0.0-RC1.msi"
+"PackageFilesAs" = "3:2"
+"PackageFileSize" = "3:-2147483648"
+"CabType" = "3:1"
+"Compression" = "3:2"
+"SignOutput" = "11:FALSE"
+"CertificateFile" = "8:"
+"PrivateKeyFile" = "8:"
+"TimeStampServer" = "8:"
+"InstallerBootstrapper" = "3:2"
+"BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+{
+"Enabled" = "11:FALSE"
+"PromptEnabled" = "11:TRUE"
+"PrerequisitesLocation" = "2:1"
+"Url" = "8:"
+"ComponentsUrl" = "8:"
+"Items"
+{
+}
+}
+}
+"Release"
+{
+"DisplayName" = "8:Release"
+"IsDebugOnly" = "11:FALSE"
+"IsReleaseOnly" = "11:TRUE"
+"OutputFilename" = "8:Release\\Lumen-Setup-1.0.0-RC1.msi"
+"PackageFilesAs" = "3:2"
+"PackageFileSize" = "3:-2147483648"
+"CabType" = "3:1"
+"Compression" = "3:2"
+"SignOutput" = "11:FALSE"
+"CertificateFile" = "8:"
+"PrivateKeyFile" = "8:"
+"TimeStampServer" = "8:"
+"InstallerBootstrapper" = "3:2"
+"BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+{
+"Enabled" = "11:FALSE"
+"PromptEnabled" = "11:TRUE"
+"PrerequisitesLocation" = "2:1"
+"Url" = "8:"
+"ComponentsUrl" = "8:"
+"Items"
+{
+}
+}
+}
+}
+"Deployable"
+{
+"CustomAction"
+{
+}
+"DefaultFeature"
+{
+"Name" = "8:DefaultFeature"
+"Title" = "8:Lumen"
+"Description" = "8:Lumen 1.0.0 RC1"
+}
+"ExternalPersistence"
+{
+"LaunchCondition"
+{
+}
+}
+"File"
+{
+"{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B5A9827C0D694F3FA3C7D3A8EE2A8395"
+{
+"SourcePath" = "8:..\\Assets\\Lumen.ico"
+"TargetName" = "8:Lumen.ico"
+"Tag" = "8:"
+"Folder" = "8:_C2C08F1037FD4C5E8EAEB4B65B1B0D18"
+"Condition" = "8:"
+"Transitive" = "11:FALSE"
+"Vital" = "11:TRUE"
+"ReadOnly" = "11:FALSE"
+"Hidden" = "11:FALSE"
+"System" = "11:FALSE"
+"Permanent" = "11:FALSE"
+"SharedLegacy" = "11:FALSE"
+"PackageAs" = "3:1"
+"Register" = "3:1"
+"Exclude" = "11:FALSE"
+"IsDependency" = "11:FALSE"
+"IsolateTo" = "8:"
+}
+"{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_067612D2CBAF5993966D022F2DBFBCC4"
+{
+"SourcePath" = "8:Terms.rtf"
+"TargetName" = "8:Lumen Release Candidate Terms.rtf"
+"Tag" = "8:"
+"Folder" = "8:_C2C08F1037FD4C5E8EAEB4B65B1B0D18"
+"Condition" = "8:"
+"Transitive" = "11:FALSE"
+"Vital" = "11:TRUE"
+"ReadOnly" = "11:TRUE"
+"Hidden" = "11:FALSE"
+"System" = "11:FALSE"
+"Permanent" = "11:FALSE"
+"SharedLegacy" = "11:FALSE"
+"PackageAs" = "3:1"
+"Register" = "3:1"
+"Exclude" = "11:FALSE"
+"IsDependency" = "11:FALSE"
+"IsolateTo" = "8:"
+}
+}
+"FileType"
+{
+}
+"Folder"
+{
+"{1525181F-901A-416C-8A58-119130FE478E}:_E5AFBF850D1D4B93BD9F1D7BE57732BE"
+{
+"Name" = "8:#1916"
+"AlwaysCreate" = "11:FALSE"
+"Condition" = "8:"
+"Transitive" = "11:FALSE"
+"Property" = "8:DesktopFolder"
+"Folders"
+{
+}
+}
+"{1525181F-901A-416C-8A58-119130FE478E}:_D8B91443A83148CF94D8CD999265E823"
+{
+"Name" = "8:#1919"
+"AlwaysCreate" = "11:TRUE"
+"Condition" = "8:"
+"Transitive" = "11:FALSE"
+"Property" = "8:ProgramMenuFolder"
+"Folders"
+{
+}
+}
+"{3C67513D-01DD-4637-8A68-80971EB9504F}:_C2C08F1037FD4C5E8EAEB4B65B1B0D18"
+{
+"DefaultLocation" = "8:[ProgramFiles64Folder]\\[ProductName]"
+"Name" = "8:#1925"
+"AlwaysCreate" = "11:TRUE"
+"Condition" = "8:"
+"Transitive" = "11:FALSE"
+"Property" = "8:TARGETDIR"
+"Folders"
+{
+}
+}
+}
+"LaunchCondition"
+{
+}
+"Locator"
+{
+}
+"MsiBootstrapper"
+{
+"LangId" = "3:1033"
+"RequiresElevation" = "11:TRUE"
+}
+"Product"
+{
+"Name" = "8:Microsoft Visual Studio"
+"ProductName" = "8:Lumen"
+"ProductCode" = "8:{752FDD0E-CE97-4F75-9F77-71DCE61B60A7}"
+"PackageCode" = "8:{A21F57CF-724E-476C-9988-CAC1756602AD}"
+"UpgradeCode" = "8:{57A26282-EB73-4B82-9AE8-DD7D9D22F4C1}"
+"AspNetVersion" = "8:"
+"RestartWWWService" = "11:FALSE"
+"RemovePreviousVersions" = "11:TRUE"
+"DetectNewerInstalledVersion" = "11:TRUE"
+"InstallAllUsers" = "11:TRUE"
+"ProductVersion" = "8:1.0.7"
+"Manufacturer" = "8:Lumen"
+"ARPHELPTELEPHONE" = "8:"
+"ARPHELPLINK" = "8:"
+"Title" = "8:Lumen 1.0.0 RC1 Setup"
+"Subject" = "8:A modern native Jellyfin client for Windows"
+"ARPCONTACT" = "8:Lumen"
+"Keywords" = "8:Jellyfin;Lumen;Media"
+"ARPCOMMENTS" = "8:Lumen 1.0.0 RC1 - native Jellyfin client for Windows"
+"ARPURLINFOABOUT" = "8:"
+"ARPPRODUCTICON" = "8:_B5A9827C0D694F3FA3C7D3A8EE2A8395"
+"ARPIconIndex" = "3:0"
+"SearchPath" = "8:"
+"UseSystemSearchPath" = "11:TRUE"
+"TargetPlatform" = "3:1"
+"PreBuildEvent" = "8:"
+"PostBuildEvent" = "8:call \"$(ProjectDir)PostBuild.cmd\" \"$(BuiltOuputPath)\" \"$(ProjectDir)..\\Assets\\LumenLogo.png\" \"$(ProjectDir)..\\Assets\\Lumen.ico\""
+"RunPostBuildEvent" = "3:0"
+}
+"Registry"
+{
+"HKLM"
+{
+"Keys"
+{
+}
+}
+"HKCU"
+{
+"Keys"
+{
+}
+}
+"HKCR"
+{
+"Keys"
+{
+}
+}
+"HKU"
+{
+"Keys"
+{
+}
+}
+"HKPU"
+{
+"Keys"
+{
+}
+}
+}
+"Sequences"
+{
+}
+"Shortcut"
+{
+"{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F51995E8C3564BAEAB403AC312541B29"
+{
+"Name" = "8:Lumen"
+"Arguments" = "8:"
+"Description" = "8:Launch Lumen"
+"ShowCmd" = "3:1"
+"IconIndex" = "3:0"
+"Transitive" = "11:FALSE"
+"Target" = "8:_A0F4B72D18F54CF19AC0C3540D9A1411"
+"Folder" = "8:_D8B91443A83148CF94D8CD999265E823"
+"WorkingFolder" = "8:_C2C08F1037FD4C5E8EAEB4B65B1B0D18"
+"Icon" = "8:"
+"Feature" = "8:"
+}
+"{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_49A9AF38E17B5DEFBFF2063DCBDAC0E8"
+{
+"Name" = "8:Lumen"
+"Arguments" = "8:"
+"Description" = "8:Launch Lumen"
+"ShowCmd" = "3:1"
+"IconIndex" = "3:0"
+"Transitive" = "11:FALSE"
+"Target" = "8:_A0F4B72D18F54CF19AC0C3540D9A1411"
+"Folder" = "8:_E5AFBF850D1D4B93BD9F1D7BE57732BE"
+"WorkingFolder" = "8:_C2C08F1037FD4C5E8EAEB4B65B1B0D18"
+"Icon" = "8:"
+"Feature" = "8:"
+}
+}
+
+"UserInterface"
+{
+"{2479F3F5-0309-486D-8047-8187E2CE5BA0}:_UIBASICMODULE"
+{
+"UseDynamicProperties" = "11:FALSE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdBasicDialogs.wim"
+}
+"{2479F3F5-0309-486D-8047-8187E2CE5BA0}:_UIFULLMODULE"
+{
+"UseDynamicProperties" = "11:FALSE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdUserInterface.wim"
+}
+"{DF760B10-853B-4699-99F2-AFF7185B4A62}:_USERSTART"
+{
+"Name" = "8:#1900"
+"Sequence" = "3:1"
+"Attributes" = "3:1"
+"Dialogs"
+{
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_USERWELCOME"
+{
+"Sequence" = "3:100"
+"DisplayName" = "8:Welcome"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdWelcomeDlg.wid"
+"Properties"
+{
+}
+}
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_79D660BD04715575AF1542D6A9D25BF4"
+{
+"Sequence" = "3:200"
+"DisplayName" = "8:Release Candidate Terms"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdLicenseDlg.wid"
+"Properties"
+{
+"BannerBitmap"
+{
+"Name" = "8:BannerBitmap"
+"DisplayName" = "8:#1001"
+"Description" = "8:#1101"
+"Type" = "3:8"
+"ContextData" = "8:Bitmap"
+"Attributes" = "3:4"
+"Setting" = "3:1"
+"Value" = "8:"
+"DefaultValue" = "8:#1001"
+"UsePlugInResources" = "11:TRUE"
+}
+"EulaText"
+{
+"Name" = "8:EulaText"
+"DisplayName" = "8:#1008"
+"Description" = "8:#1108"
+"Type" = "3:6"
+"ContextData" = "8:"
+"Attributes" = "3:0"
+"Setting" = "3:2"
+"Value" = "8:_067612D2CBAF5993966D022F2DBFBCC4"
+"DefaultValue" = "8:"
+"UsePlugInResources" = "11:TRUE"
+}
+"Sunken"
+{
+"Name" = "8:Sunken"
+"DisplayName" = "8:#1007"
+"Description" = "8:#1107"
+"Type" = "3:5"
+"ContextData" = "8:4;True=4;False=0"
+"Attributes" = "3:0"
+"Setting" = "3:0"
+"Value" = "3:4"
+"DefaultValue" = "3:4"
+"UsePlugInResources" = "11:TRUE"
+}
+}
+}
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_USERFOLDER"
+{
+"Sequence" = "3:300"
+"DisplayName" = "8:Installation Folder"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdFolderDlg.wid"
+"Properties"
+{
+}
+}
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_CA81D4BC54255045A41B0EE249A3EF51"
+{
+"Sequence" = "3:250"
+"DisplayName" = "8:Additional Tasks"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdCustomCheck1Dlg.wid"
+"Properties"
+{
+"BannerBitmap"
+{
+"Name" = "8:BannerBitmap"
+"DisplayName" = "8:#1001"
+"Description" = "8:#1101"
+"Type" = "3:8"
+"ContextData" = "8:Bitmap"
+"Attributes" = "3:4"
+"Setting" = "3:1"
+"Value" = "8:"
+"DefaultValue" = "8:#1001"
+"UsePlugInResources" = "11:TRUE"
+}
+"BannerText"
+{
+"Name" = "8:BannerText"
+"DisplayName" = "8:#1014"
+"Description" = "8:#1114"
+"Type" = "3:3"
+"ContextData" = "8:"
+"Attributes" = "3:0"
+"Setting" = "3:2"
+"Value" = "8:Additional Tasks"
+"DefaultValue" = "8:#1214"
+"UsePlugInResources" = "11:TRUE"
+}
+"BodyText"
+{
+"Name" = "8:BodyText"
+"DisplayName" = "8:#1015"
+"Description" = "8:#1115"
+"Type" = "3:3"
+"ContextData" = "8:"
+"Attributes" = "3:0"
+"Setting" = "3:2"
+"Value" = "8:Choose which shortcuts Setup should create."
+"DefaultValue" = "8:#1215"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox1Label"
+{
+"Name" = "8:Checkbox1Label"
+"DisplayName" = "8:#1034"
+"Description" = "8:#1134"
+"Type" = "3:3"
+"ContextData" = "8:"
+"Attributes" = "3:0"
+"Setting" = "3:2"
+"Value" = "8:Create a Start Menu shortcut"
+"DefaultValue" = "8:#1234"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox1Property"
+{
+"Name" = "8:Checkbox1Property"
+"DisplayName" = "8:#1030"
+"Description" = "8:#1130"
+"Type" = "3:14"
+"ContextData" = "8:Public"
+"Attributes" = "3:2"
+"Setting" = "3:2"
+"Value" = "8:STARTMENUSHORTCUT"
+"DefaultValue" = "8:CHECKBOXA1"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox1Value"
+{
+"Name" = "8:Checkbox1Value"
+"DisplayName" = "8:#1038"
+"Description" = "8:#1138"
+"Type" = "3:2"
+"ContextData" = "8:Unchecked=;Checked=1"
+"Attributes" = "3:0"
+"Setting" = "3:2"
+"Value" = "8:1"
+"DefaultValue" = "8:"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox1Visible"
+{
+"Name" = "8:Checkbox1Visible"
+"DisplayName" = "8:#1026"
+"Description" = "8:#1126"
+"Type" = "3:5"
+"ContextData" = "8:1;True=1;False=0"
+"Attributes" = "3:0"
+"Setting" = "3:0"
+"Value" = "3:1"
+"DefaultValue" = "3:1"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox2Label"
+{
+"Name" = "8:Checkbox2Label"
+"DisplayName" = "8:#1035"
+"Description" = "8:#1135"
+"Type" = "3:3"
+"ContextData" = "8:"
+"Attributes" = "3:0"
+"Setting" = "3:2"
+"Value" = "8:Create a desktop shortcut"
+"DefaultValue" = "8:#1235"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox2Property"
+{
+"Name" = "8:Checkbox2Property"
+"DisplayName" = "8:#1031"
+"Description" = "8:#1131"
+"Type" = "3:14"
+"ContextData" = "8:Public"
+"Attributes" = "3:2"
+"Setting" = "3:2"
+"Value" = "8:DESKTOPSHORTCUT"
+"DefaultValue" = "8:CHECKBOXA2"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox2Value"
+{
+"Name" = "8:Checkbox2Value"
+"DisplayName" = "8:#1039"
+"Description" = "8:#1139"
+"Type" = "3:2"
+"ContextData" = "8:Unchecked=;Checked=1"
+"Attributes" = "3:0"
+"Setting" = "3:2"
+"Value" = "8:1"
+"DefaultValue" = "8:"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox2Visible"
+{
+"Name" = "8:Checkbox2Visible"
+"DisplayName" = "8:#1027"
+"Description" = "8:#1127"
+"Type" = "3:5"
+"ContextData" = "8:1;True=1;False=0"
+"Attributes" = "3:0"
+"Setting" = "3:0"
+"Value" = "3:1"
+"DefaultValue" = "3:1"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox3Label"
+{
+"Name" = "8:Checkbox3Label"
+"DisplayName" = "8:#1036"
+"Description" = "8:#1136"
+"Type" = "3:3"
+"ContextData" = "8:"
+"Attributes" = "3:0"
+"Setting" = "3:1"
+"Value" = "8:"
+"DefaultValue" = "8:#1236"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox3Property"
+{
+"Name" = "8:Checkbox3Property"
+"DisplayName" = "8:#1032"
+"Description" = "8:#1132"
+"Type" = "3:14"
+"ContextData" = "8:Public"
+"Attributes" = "3:2"
+"Setting" = "3:2"
+"Value" = "8:CHECKBOXA3"
+"DefaultValue" = "8:CHECKBOXA3"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox3Value"
+{
+"Name" = "8:Checkbox3Value"
+"DisplayName" = "8:#1040"
+"Description" = "8:#1140"
+"Type" = "3:2"
+"ContextData" = "8:Unchecked=;Checked=1"
+"Attributes" = "3:0"
+"Setting" = "3:2"
+"Value" = "8:"
+"DefaultValue" = "8:"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox3Visible"
+{
+"Name" = "8:Checkbox3Visible"
+"DisplayName" = "8:#1028"
+"Description" = "8:#1128"
+"Type" = "3:5"
+"ContextData" = "8:1;True=1;False=0"
+"Attributes" = "3:0"
+"Setting" = "3:0"
+"Value" = "3:0"
+"DefaultValue" = "3:1"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox4Label"
+{
+"Name" = "8:Checkbox4Label"
+"DisplayName" = "8:#1037"
+"Description" = "8:#1137"
+"Type" = "3:3"
+"ContextData" = "8:"
+"Attributes" = "3:0"
+"Setting" = "3:1"
+"Value" = "8:"
+"DefaultValue" = "8:#1237"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox4Property"
+{
+"Name" = "8:Checkbox4Property"
+"DisplayName" = "8:#1033"
+"Description" = "8:#1133"
+"Type" = "3:14"
+"ContextData" = "8:Public"
+"Attributes" = "3:2"
+"Setting" = "3:2"
+"Value" = "8:CHECKBOXA4"
+"DefaultValue" = "8:CHECKBOXA4"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox4Value"
+{
+"Name" = "8:Checkbox4Value"
+"DisplayName" = "8:#1041"
+"Description" = "8:#1141"
+"Type" = "3:2"
+"ContextData" = "8:Unchecked=;Checked=1"
+"Attributes" = "3:0"
+"Setting" = "3:2"
+"Value" = "8:"
+"DefaultValue" = "8:"
+"UsePlugInResources" = "11:TRUE"
+}
+"Checkbox4Visible"
+{
+"Name" = "8:Checkbox4Visible"
+"DisplayName" = "8:#1029"
+"Description" = "8:#1129"
+"Type" = "3:5"
+"ContextData" = "8:1;True=1;False=0"
+"Attributes" = "3:0"
+"Setting" = "3:0"
+"Value" = "3:0"
+"DefaultValue" = "3:1"
+"UsePlugInResources" = "11:TRUE"
+}
+}
+}
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_USERCONFIRM"
+{
+"Sequence" = "3:500"
+"DisplayName" = "8:Confirm Installation"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdConfirmDlg.wid"
+"Properties"
+{
+}
+}
+}
+}
+"{DF760B10-853B-4699-99F2-AFF7185B4A62}:_USERPROGRESS"
+{
+"Name" = "8:#1901"
+"Sequence" = "3:1"
+"Attributes" = "3:2"
+"Dialogs"
+{
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_USERPROGRESSDLG"
+{
+"Sequence" = "3:100"
+"DisplayName" = "8:Progress"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdProgressDlg.wid"
+"Properties"
+{
+}
+}
+}
+}
+"{DF760B10-853B-4699-99F2-AFF7185B4A62}:_USERFINISHED"
+{
+"Name" = "8:#1902"
+"Sequence" = "3:1"
+"Attributes" = "3:3"
+"Dialogs"
+{
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_USERFINISHEDDLG"
+{
+"Sequence" = "3:100"
+"DisplayName" = "8:Finished"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdFinishedDlg.wid"
+"Properties"
+{
+}
+}
+}
+}
+"{DF760B10-853B-4699-99F2-AFF7185B4A62}:_ADMINSTART"
+{
+"Name" = "8:#1900"
+"Sequence" = "3:2"
+"Attributes" = "3:1"
+"Dialogs"
+{
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_ADMINWELCOME"
+{
+"Sequence" = "3:100"
+"DisplayName" = "8:Welcome"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdAdminWelcomeDlg.wid"
+"Properties"
+{
+}
+}
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_ADMINFOLDER"
+{
+"Sequence" = "3:200"
+"DisplayName" = "8:Installation Folder"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdAdminFolderDlg.wid"
+"Properties"
+{
+}
+}
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_ADMINCONFIRM"
+{
+"Sequence" = "3:300"
+"DisplayName" = "8:Confirm Installation"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdAdminConfirmDlg.wid"
+"Properties"
+{
+}
+}
+}
+}
+"{DF760B10-853B-4699-99F2-AFF7185B4A62}:_ADMINPROGRESS"
+{
+"Name" = "8:#1901"
+"Sequence" = "3:2"
+"Attributes" = "3:2"
+"Dialogs"
+{
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_ADMINPROGRESSDLG"
+{
+"Sequence" = "3:100"
+"DisplayName" = "8:Progress"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdAdminProgressDlg.wid"
+"Properties"
+{
+}
+}
+}
+}
+"{DF760B10-853B-4699-99F2-AFF7185B4A62}:_ADMINFINISHED"
+{
+"Name" = "8:#1902"
+"Sequence" = "3:2"
+"Attributes" = "3:3"
+"Dialogs"
+{
+"{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_ADMINFINISHEDDLG"
+{
+"Sequence" = "3:100"
+"DisplayName" = "8:Finished"
+"UseDynamicProperties" = "11:TRUE"
+"IsDependency" = "11:FALSE"
+"SourcePath" = "8:<VsdDialogDir>\\VsdAdminFinishedDlg.wid"
+"Properties"
+{
+}
+}
+}
+}
+}
+
+"MergeModule"
+{
+}
+"ProjectOutput"
+{
+"{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A0F4B72D18F54CF19AC0C3540D9A1411"
+{
+"SourcePath" = "8:..\\obj\\Release\\net10.0-windows10.0.22621.0\\win-x64\\apphost.exe"
+"TargetName" = "8:"
+"Tag" = "8:"
+"Folder" = "8:_C2C08F1037FD4C5E8EAEB4B65B1B0D18"
+"Condition" = "8:"
+"Transitive" = "11:FALSE"
+"Vital" = "11:TRUE"
+"ReadOnly" = "11:FALSE"
+"Hidden" = "11:FALSE"
+"System" = "11:FALSE"
+"Permanent" = "11:FALSE"
+"SharedLegacy" = "11:FALSE"
+"PackageAs" = "3:1"
+"Register" = "3:1"
+"Exclude" = "11:FALSE"
+"IsDependency" = "11:FALSE"
+"IsolateTo" = "8:"
+"ProjectOutputGroupRegister" = "3:1"
+"OutputConfiguration" = "8:Release|x64"
+"OutputGroupCanonicalName" = "8:PublishItems"
+"OutputProjectCanonicalName" = "8:Lumen.csproj"
+"OutputProjectGuid" = "8:{B5D8D8A7-7E4C-4F37-AF41-20EDB4F3A3C9}"
+"PublishProfilePath" = "8:Properties\\PublishProfiles\\Lumen-x64.pubxml"
+"ShowKeyOutput" = "11:TRUE"
+"ExcludeFilters"
+{
+}
+}
+}
+}
+}

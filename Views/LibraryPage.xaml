@@ -1,0 +1,275 @@
+<Page
+    x:Class="Lumen.Views.LibraryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,0,0,18" Spacing="14">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock x:Name="LibraryDescription" Foreground="{ThemeResource LumenTextBrush}"
+                           FontSize="28" FontWeight="SemiBold" />
+                <TextBlock x:Name="CountText" Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                           VerticalAlignment="Bottom" Margin="0,0,0,4" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Spacing="8"
+                        Visibility="{Binding IsMusicLibrary, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button Content="Albums" Tag="Albums" Click="MusicView_Click" Padding="18,8"/>
+                <Button Content="Artists" Tag="Artists" Click="MusicView_Click" Padding="18,8"/>
+                <Button Content="Songs" Tag="Songs" Click="MusicView_Click" Padding="18,8"/>
+            </StackPanel>
+
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="165"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="GenreComboBox"
+                          ItemsSource="{Binding Genres}"
+                          SelectedItem="{Binding SelectedGenre, Mode=TwoWay}"
+                          SelectionChanged="Filter_Changed"/>
+                <ComboBox x:Name="YearComboBox"
+                          Grid.Column="1"
+                          ItemsSource="{Binding Years}"
+                          SelectedItem="{Binding SelectedYear, Mode=TwoWay}"
+                          SelectionChanged="Filter_Changed"/>
+                <ComboBox x:Name="FilterComboBox"
+                          Grid.Column="2"
+                          ItemsSource="{Binding Filters}"
+                          SelectedItem="{Binding SelectedFilter, Mode=TwoWay}"
+                          SelectionChanged="Filter_Changed"/>
+                <ComboBox x:Name="SortComboBox"
+                          Grid.Column="3"
+                          ItemsSource="{Binding SortOptions}"
+                          SelectedItem="{Binding SelectedSort, Mode=TwoWay}"
+                          SelectionChanged="Filter_Changed"/>
+                <Button Grid.Column="4" Width="40" Height="40" Padding="0"
+                        Click="SortDirection_Click" ToolTipService.ToolTip="Reverse sort">
+                    <FontIcon Glyph="&#xE8CB;" FontFamily="Segoe Fluent Icons" FontSize="16"/>
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Visibility="{Binding ShowStandardGrid, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <GridView ItemsSource="{Binding Items}"
+                          IsItemClickEnabled="True"
+                          SelectionMode="None"
+                          ItemClick="MediaCard_ItemClick"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Stretch">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Stretch" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Left" />
+                            <Setter Property="VerticalContentAlignment" Value="Top" />
+                            <Setter Property="Margin" Value="0,0,18,24" />
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="170"
+                                  RightTapped="MediaCard_RightTapped"
+                                  PointerEntered="MediaCard_PointerEntered"
+                                  PointerExited="MediaCard_PointerExited">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="255" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Border CornerRadius="12" Background="{ThemeResource LumenSurfaceBrush}">
+                                    <Grid>
+                                        <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                        <Border VerticalAlignment="Bottom" Height="34" Background="#99000000"
+                                                Visibility="{Binding HasProgress, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <ProgressBar Value="{Binding Progress}" Maximum="100" Height="3" VerticalAlignment="Bottom" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                <Grid x:Name="QuickPlayChrome"
+                                      Grid.Row="0"
+                                      Width="170" Height="255"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Top"
+                                      Opacity="0"
+                                      IsHitTestVisible="False">
+                                    <Border CornerRadius="12" Background="#30000000" IsHitTestVisible="False" />
+                                    <Button x:Name="QuickPlayButton"
+                                            Tag="{Binding}"
+                                            Click="QuickPlay_Click"
+                                            Style="{StaticResource LumenPosterPlayButtonStyle}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            ToolTipService.ToolTip="Play">
+                                        <Path Data="M 3,2 L 19,11 L 3,20 Z" Fill="White"
+                                              Width="16" Height="18" Stretch="Fill" Margin="2,0,0,0" />
+                                    </Button>
+                                </Grid>
+                                <StackPanel Grid.Row="1" Margin="2,8,2,0" Spacing="2">
+                                    <TextBlock Text="{Binding Name}"
+                                               Foreground="{ThemeResource LumenTextBrush}"
+                                               FontSize="14" FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Subtitle}"
+                                               Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                               FontSize="12" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </ScrollViewer>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Visibility="{Binding ShowMusicGrid, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <GridView ItemsSource="{Binding Items}"
+                          IsItemClickEnabled="True"
+                          SelectionMode="None"
+                          ItemClick="MediaCard_ItemClick"
+                          HorizontalAlignment="Stretch">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0,0,20,24" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="195"
+                                  PointerEntered="MediaCard_PointerEntered"
+                                  PointerExited="MediaCard_PointerExited"
+                                  RightTapped="MediaCard_RightTapped">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="195" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Border CornerRadius="16"
+                                        Background="{ThemeResource LumenSurfaceBrush}"
+                                        BorderBrush="{ThemeResource LumenBorderBrush}"
+                                        BorderThickness="1">
+                                    <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                </Border>
+                                <Grid x:Name="QuickPlayChrome"
+                                      Grid.Row="0"
+                                      Width="195" Height="195"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Top"
+                                      Opacity="0"
+                                      IsHitTestVisible="False">
+                                    <Border CornerRadius="16" Background="#30000000" IsHitTestVisible="False" />
+                                    <Button Tag="{Binding}"
+                                            Click="QuickPlay_Click"
+                                            Style="{StaticResource LumenPosterPlayButtonStyle}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            ToolTipService.ToolTip="Play">
+                                        <Path Data="M 3,2 L 19,11 L 3,20 Z" Fill="White"
+                                              Width="15" Height="17" Stretch="Fill" Margin="2,0,0,0" />
+                                    </Button>
+                                </Grid>
+                                <StackPanel Grid.Row="1" Margin="2,9,2,0" Spacing="2">
+                                    <TextBlock Text="{Binding Name}"
+                                               Foreground="White"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Subtitle}"
+                                               Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                               FontSize="11"
+                                               TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </ScrollViewer>
+
+            <ListView ItemsSource="{Binding Items}"
+                      IsItemClickEnabled="True"
+                      ItemClick="MediaCard_ItemClick"
+                      SelectionMode="None"
+                      Background="Transparent"
+                      Visibility="{Binding ShowMusicSongs, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0,0,0,6" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{ThemeResource LumenSubtleSurfaceBrush}" CornerRadius="12" Padding="10">
+                            <Grid ColumnSpacing="14">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="56" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Border Width="56" Height="56"
+                                        CornerRadius="8"
+                                        Background="{ThemeResource LumenSurfaceBrush}">
+                                    <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" />
+                                </Border>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                    <TextBlock Text="{Binding Name}"
+                                               Foreground="White"
+                                               FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Subtitle}"
+                                               Foreground="{ThemeResource LumenSecondaryTextBrush}"
+                                               FontSize="11"
+                                               TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <Button Grid.Column="2"
+                                        Tag="{Binding}"
+                                        Click="QuickPlay_Click"
+                                        Width="40" Height="40"
+                                        CornerRadius="20"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        ToolTipService.ToolTip="Play">
+                                    <Grid Width="17" Height="17" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Path Data="M 3,2 L 19,11 L 3,20 Z" Fill="White"
+                                              Width="12" Height="14" Stretch="Fill" Margin="1.5,0,0,0"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="12"
+                        IsHitTestVisible="False">
+                <ProgressRing IsActive="{Binding IsBusy}" Width="40" Height="40" />
+                <TextBlock Text="{Binding StatusMessage}"
+                           Foreground="{ThemeResource LumenSecondaryTextBrush}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
