@@ -1,0 +1,112 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-installer:
+    name: Build MSI and release
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Locate Visual Studio
+        id: vs
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vsPath = & $vswhere -latest -products * -property installationPath
+          if (-not $vsPath) { throw "Visual Studio was not found on the runner." }
+          "path=$vsPath" >> $env:GITHUB_OUTPUT
+          Write-Host "Visual Studio: $vsPath"
+
+      - name: Install Visual Studio Installer Projects extension
+        shell: pwsh
+        run: |
+          $installer = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\setup.exe"
+          $vsPath = '${{ steps.vs.outputs.path }}'
+          $config = (Resolve-Path '.github\visualstudio.vsconfig').Path
+
+          $arguments = "modify --installPath `"$vsPath`" --config `"$config`" --quiet --norestart --allowUnsignedExtensions"
+          $process = Start-Process -FilePath $installer -ArgumentList $arguments -Wait -PassThru
+
+          if ($process.ExitCode -notin @(0, 3010)) {
+            throw "Visual Studio Installer returned exit code $($process.ExitCode)."
+          }
+
+      - name: Restore NuGet packages
+        shell: pwsh
+        run: dotnet restore Lumen.csproj -r win-x64
+
+      - name: Build solution and MSI
+        shell: pwsh
+        run: |
+          $devenv = Join-Path '${{ steps.vs.outputs.path }}' 'Common7\IDE\devenv.com'
+          if (-not (Test-Path $devenv)) { throw "devenv.com was not found: $devenv" }
+
+          & $devenv "$env:GITHUB_WORKSPACE\Lumen.sln" /Rebuild "Release|x64"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Visual Studio build failed with exit code $LASTEXITCODE."
+          }
+
+      - name: Prepare release files
+        shell: pwsh
+        run: |
+          $msi = Get-ChildItem "$env:GITHUB_WORKSPACE\Lumen.Setup\Release\*.msi" | Select-Object -First 1
+          if (-not $msi) { throw "No MSI was produced." }
+
+          $hash = (Get-FileHash $msi.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  $($msi.Name)" | Set-Content "$env:GITHUB_WORKSPACE\SHA256SUMS.txt" -Encoding ascii
+
+          "MSI_PATH=$($msi.FullName)" >> $env:GITHUB_ENV
+          "MSI_NAME=$($msi.Name)" >> $env:GITHUB_ENV
+          Write-Host "Built $($msi.Name)"
+          Write-Host "SHA256 $hash"
+
+      - name: Upload MSI workflow artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: Lumen-installer-${{ github.ref_name }}
+          path: |
+            ${{ env.MSI_PATH }}
+            SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Create GitHub prerelease
+        if: startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, '-')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" "$env:MSI_PATH" "SHA256SUMS.txt" `
+            --verify-tag `
+            --title "Lumen ${{ github.ref_name }}" `
+            --generate-notes `
+            --prerelease
+
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, '-')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" "$env:MSI_PATH" "SHA256SUMS.txt" `
+            --verify-tag `
+            --title "Lumen ${{ github.ref_name }}" `
+            --generate-notes
